@@ -1,0 +1,37 @@
+.banner{
+    background-image: linear-gradient(135deg,rgb(110 177 255),rgb(241 250 255));
+    
+}
+.heroText{
+    font-weight: bold;
+    font-size: 60px;
+    max-width: 600px;
+}
+.heroContainer{
+    padding: 0px 72px;
+    padding-bottom: 60px;
+}
+.heroButtons{
+    all: unset;
+    background-color: black;
+    color: white;
+    padding: 8px 18px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+.heroButtonWrapper{
+    display: flex;
+    gap: 16px;
+    padding: 18px 0px;
+}
+
+.fundraisingTitle{
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.fundraisingSubTitle{
+    font-size: 14px;
+    color:#666;
+}
