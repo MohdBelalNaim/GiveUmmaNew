@@ -1,28 +1,22 @@
 import React, { useState } from 'react'
 import styles from '../assets/css/navbar.module.css'
 import { Link } from 'react-router-dom'
-import { FaSearch, FaTimes, FaUser } from 'react-icons/fa'
+import { FaSearch, FaTimes} from 'react-icons/fa'
 import { FaBars } from 'react-icons/fa6'
-import { useAuth0 } from "@auth0/auth0-react";
 
 const HomeNavbar = () => {
-
-  const{user,logout} = useAuth0()
-
-const { loginWithRedirect } = useAuth0();
 const[menu,setMenu] = useState(false)
 const[search,setSearch] = useState(false)
-const[signup,setSignup] = useState(false)
 const[auth,setAuth] = useState(false)
 
 function showSearch(){
-setSearch(true)
-document.body.style.overflow='hidden'
+  setSearch(true)
+  document.body.style.overflow='hidden'
 }
 
 function hideSearch(){
-setSearch(false)
-document.body.style.overflow='unset'
+  setSearch(false)
+  document.body.style.overflow='unset'
 }
 
 function showAuth(){
@@ -100,9 +94,7 @@ return (
         </div>
       </div>
       <div className='px-3 py-2 border-t'>
-        {
-          user?
-        <>
+      
           <Link to="/my-profile">
             <div className='flex items-center gap-4 py-2'>
               <i className="bi bi-shield text text-gray-400"></i>
@@ -113,13 +105,11 @@ return (
             <i className="bi bi-shield text text-gray-400"></i>
             <div className='text-sm cursor-pointer' onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} >Logout</div>
           </div>
-        </>
-        :
         <div className='flex items-center gap-4 py-2'>
           <i className="bi bi-shield text text-gray-400"></i>
           <div className='text-sm cursor-pointer' onClick={() => loginWithRedirect()}>Login or Signup</div>
         </div>
-        }
+        
       </div>
       
       <div className='px-3 py-2 border-t flex text-xs text-gray-500 gap-4'>

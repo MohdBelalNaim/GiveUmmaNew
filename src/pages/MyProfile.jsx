@@ -5,11 +5,10 @@ import {FaCheck} from "react-icons/fa";
 import MyCampaigns from "../components/MyProfilePage/MyCampaigns";
 import Model from "../components/Model";
 import useModel from "../customHooks/useModel";
-import { useAuth0 } from "@auth0/auth0-react";
 
 const MyProfile = () => {
   const [form, toggleForm] = useModel();
-  const { user, isAuthenticated, isLoading } = useAuth0();
+  const user={}
 
   const profileOptions = [
     "Verify phone number",
@@ -22,9 +21,6 @@ const MyProfile = () => {
     "Add Aadhar card number",
     "Add date of birth",
   ];
-  if (isLoading) {
-    return <div>Loading ...</div>;
-  }
   return (
     <>
       <HomeNavbar />
