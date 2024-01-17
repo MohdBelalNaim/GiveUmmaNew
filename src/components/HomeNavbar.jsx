@@ -9,8 +9,8 @@ import { auth, provider } from "../utils/firebaseConfig";
 const HomeNavbar = () => {
   const [menu, setMenu] = useState(false);
   const [search, setSearch] = useState(false);
-  const [authPopup, setAuth] = useState(false);
-
+  const [authPopup, setAuthPopup] = useState(false);
+  const[signup,setSignup] = useState(false)
   function showSearch() {
     setSearch(true);
     document.body.style.overflow = "hidden";
@@ -20,25 +20,28 @@ const HomeNavbar = () => {
     setSearch(false);
     document.body.style.overflow = "unset";
   }
-
-  function showAuth() {
-    setAuth(true);
-    document.body.style.overflow = "hidden";
-  }
-  function hideAuth() {
-    setAuth(false);
-    document.body.style.overflow = "unset";
-  }
-
   const googleSignIn = () =>
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        console.log(user);
+        alert(user.email)
+        hideAuth()
+        setMenu(false)
       })
       .catch((error) => {
         console.log(error);
+        hideAuth()
       });
+
+  function showAuth() {
+    setAuthPopup(true);
+    document.body.style.overflow = "hidden";
+  }
+  function hideAuth() {
+    setAuthPopup(false);
+    document.body.style.overflow = "unset";
+  }
+
 
   return (
     <>
@@ -64,16 +67,14 @@ const HomeNavbar = () => {
         ""
       )}
 
-      {auth ? (
+      {
+      authPopup ? (
         <div
           className={`${styles.searchOverlay} flex justify-center items-start`}
         >
           <div className="bg-white w-[36%] max-sm:w-[96%] rounded-xl p-4 shadow-xl relative top-5 animate__animated animate__bounceIn">
-            <div>
-              <i
-                onClick={hideAuth}
-                className="bi bi-x text-xl font-bold cursor-pointer"
-              ></i>
+            <div onClick={hideAuth} className="cursor-pointer">
+              <FaTimes/>
             </div>
             <div className="grid grid-cols-2">
               <div
@@ -92,7 +93,7 @@ const HomeNavbar = () => {
             {signup ? (
               <section className="p-4">
                 <div className="text-2xl font-bold mb-4">Signup</div>
-                <div className="flex items-center justify-center border-[1px] gap-3 py-2 rounded-lg border-black">
+                <div className="flex items-center justify-center border-[1px] gap-3 py-2 rounded-lg border-black cursor-pointer" onClick={googleSignIn}>
                   <i className="bi bi-google"></i>
                   <div>Continue with Google</div>
                 </div>
@@ -140,7 +141,7 @@ const HomeNavbar = () => {
             ) : (
               <section className="p-4">
                 <div className="text-2xl font-bold mb-4">Login</div>
-                <div className="flex items-center justify-center border-[1px] gap-3 py-2 rounded-lg border-black">
+                <div className="flex items-center justify-center border-[1px] gap-3 py-2 rounded-lg border-black cursor-pointer" onClick={googleSignIn}>
                   <i className="bi bi-google"></i>
                   <div>Continue with Google</div>
                 </div>
@@ -224,7 +225,6 @@ const HomeNavbar = () => {
                   <i className="bi bi-shield text text-gray-400"></i>
                   <div
                     className="text-sm cursor-pointer"
-                    onClick={() => loginWithRedirect()}
                   >
                     My Profile
                   </div>
@@ -247,7 +247,7 @@ const HomeNavbar = () => {
                 <i className="bi bi-shield text text-gray-400"></i>
                 <div
                   className="text-sm cursor-pointer"
-                  onClick={() => setAuth(true)}
+                  onClick={showAuth}
                 >
                   Login or Signup
                 </div>
