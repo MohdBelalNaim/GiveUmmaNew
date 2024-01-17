@@ -19,7 +19,7 @@ return (
                 Empower lives with your giving
             </div>
             <div className="flex gap-4 mt-4 max-sm:flex-col max-sm:items-start">
-                <button className={styles.heroButtons}>Donate to Palestine</button>
+                <Link to="/my-profile"><button className={styles.heroButtons}>Donate to Palestine</button></Link>
                 <button className={styles.heroButtons}>Help individuals in need</button>
             </div>
         </div>
