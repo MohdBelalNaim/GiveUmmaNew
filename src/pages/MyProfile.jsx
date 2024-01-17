@@ -1,23 +1,15 @@
 import React from "react";
 import HomeNavbar from "../components/HomeNavbar";
 import Button from "../components/Button";
-import {
-  FaCalendar,
-  FaCheck,
-  FaEnvelope,
-  FaEye,
-  FaFacebook,
-  FaFacebookF,
-  FaHandHoldingHeart,
-  FaLink,
-  FaWhatsapp,
-} from "react-icons/fa";
+import {FaCheck} from "react-icons/fa";
 import MyCampaigns from "../components/MyProfilePage/MyCampaigns";
 import Model from "../components/Model";
 import useModel from "../customHooks/useModel";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const MyProfile = () => {
   const [form, toggleForm] = useModel();
+  const { user, isAuthenticated, isLoading } = useAuth0();
 
   const profileOptions = [
     "Verify phone number",
@@ -30,6 +22,9 @@ const MyProfile = () => {
     "Add Aadhar card number",
     "Add date of birth",
   ];
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
   return (
     <>
       <HomeNavbar />
@@ -53,28 +48,28 @@ const MyProfile = () => {
               <div className="grid grid-cols-2 gap-x-28 gap-y-5 p-5">
                 <div>
                   <img
-                    src="https://picsum.photos/300"
+                    src={user?.picture}
                     className="h-24 w-24 object-contain rounded-full"
                     alt=""
                   />
                 </div>
                 <div className="place-self-end justify-self-start">
                   <div className="text-gray-500">Name</div>
-                  <div className="text-lg font-light">Sajad Khaki</div>
+                  <div className="text-lg font-light">{user?.name}</div>
                 </div>
                 <div>
                   <div className="text-gray-500">Email</div>
                   <div className="text-lg font-light">
-                    sajadkhaki09@gmail.com
+                    {user?.email}
                   </div>
                 </div>
                 <div>
                   <div className="text-gray-500">Date of Birth</div>
-                  <div className="text-lg font-light">01-01-1997</div>
+                  <div className="text-lg font-light">{user?.birthdate??"DD-MM-YYYY"}</div>
                 </div>
                 <div>
                   <div className="text-gray-500">Phone Number</div>
-                  <div className="text-lg font-light">+91-6386164836</div>
+                  <div className="text-lg font-light">{user?.phone_number??"XXXXXXXXXX"}</div>
                 </div>
                 <div>
                   <div className="text-gray-500">City of Residence</div>
