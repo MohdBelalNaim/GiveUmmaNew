@@ -168,6 +168,10 @@ const DetailsPage = () => {
           </>
         }
         btnText="Donate Now"
+        btnOnClick={() => {
+          toggleModel();
+          toggleDonateForm();
+        }}
         controller={[visible, toggleModel]}
       >
         <div className="px-6">
