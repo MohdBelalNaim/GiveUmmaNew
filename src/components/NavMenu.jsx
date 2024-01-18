@@ -1,0 +1,87 @@
+import React from 'react'
+import { Link } from 'react-router-dom';
+
+const NavMenu = ({ controller }) => {
+    const[authPopup,setAuthPopup] = controller
+  return (
+    <div className="bg-white absolute right-5 top-24 w-80 rounded-xl shadow-lg z-50">
+      <div className="px-3 pt-2">
+        <Link to="/all-campaigns">
+          <div className="flex items-center gap-4 py-2 mt-2">
+            <i className="bi bi-globe text text-gray-400"></i>
+            <div className="text-sm">Discover all</div>
+          </div>
+        </Link>
+        <Link to="/zakat-verified">
+          <div className="flex items-center gap-4 py-2">
+            <i className="bi bi-heart text text-gray-400"></i>
+            <div className="text-sm">Zakat Verified</div>
+          </div>
+        </Link>
+        <Link to="/tax-benifit">
+          <div className="flex items-center gap-4 py-2 pb-4">
+            <i className="bi bi-house text text-gray-400"></i>
+            <div className="text-sm">Tax Benifits</div>
+          </div>
+        </Link>
+      </div>
+      <Link to="/create-campaign">
+        <div className="px-3 py-2 border-t">
+          <div className="flex items-center gap-4 py-2">
+            <i className="bi bi-send text text-gray-400"></i>
+            <div className="text-sm">Start fundraising</div>
+          </div>
+        </div>
+      </Link>
+      <Link to="/how-we-work">
+        <div className="px-3 py-2 border-t">
+          <div className="flex items-center gap-4 py-2">
+            <i className="bi bi-question-circle text text-gray-400"></i>
+            <div className="text-sm">How we work</div>
+          </div>
+        </div>
+      </Link>
+      <div className="px-3 py-2 border-t">
+        <div className="flex items-center gap-4 py-2">
+          <i className="bi bi-person text text-gray-400"></i>
+          <div className="text-sm">About Us</div>
+        </div>
+        <div className="flex items-center gap-4 py-2">
+          <i className="bi bi-phone text text-gray-400"></i>
+          <div className="text-sm">Contact Us</div>
+        </div>
+      </div>
+      <div className="px-3 py-2 border-t">
+        {localStorage.getItem("user") ? (
+          <>
+            <Link to="/my-profile">
+              <div className="flex items-center gap-4 py-2">
+                <i className="bi bi-shield text text-gray-400"></i>
+                <div className="text-sm cursor-pointer">My Profile</div>
+              </div>
+            </Link>
+            <div className="flex items-center gap-4 py-2">
+              <i className="bi bi-shield text text-gray-400"></i>
+              <div className="text-sm cursor-pointer">Logout</div>
+            </div>
+          </>
+        ) : (
+          <div className="flex items-center gap-4 py-2">
+            <i className="bi bi-shield text text-gray-400"></i>
+            <div className="text-sm cursor-pointer" onClick={()=>setAuthPopup(true)}>
+              Login or Signup
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="px-3 py-2 border-t flex text-xs text-gray-500 gap-4">
+        <div>Privacy Policy</div>
+        <div>Terms and Conditions</div>
+      </div>
+      <div className="px-3 pb-2 text-xs">@GiveUmma 2024</div>
+    </div>
+  );
+}
+
+export default NavMenu

@@ -12,6 +12,7 @@ const Signin = ({ controller }) => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
+        console.log(user.email)
         toast.success("Signed in successfully!");
         setAuthpopup(false);
       })
@@ -29,7 +30,7 @@ const Signin = ({ controller }) => {
     signInWithEmailAndPassword(auth, emailCred, passwordCred)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        console.log(user);
+        localStorage.setItem("user",user.email)
         toast.success("Signed in");
         setAuthpopup(false);
         setLoading(false);
