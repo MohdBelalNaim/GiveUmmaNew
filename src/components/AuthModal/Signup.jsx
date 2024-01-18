@@ -3,6 +3,7 @@ import { signInWithPopup, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, provider } from "../../utils/firebaseConfig";
 import { toast } from "react-hot-toast";
 import { SpinnerCircular } from "spinners-react";
+import { createUser } from "../../utils/createUser";
 
 const Signup = ({ controller }) => {
   
@@ -12,15 +13,15 @@ const Signup = ({ controller }) => {
   const [password, setPassword] = useState("");
   const [authPopup, setAuthpopup] = controller;
   const [loading, setLoading] = useState(false);
-  
+  let fullname = firstName+" "+lastName
   
   const signupWithEmailandPassword = (e) => {
     e.preventDefault();
     setLoading(true);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
-        console.log(userCredentials.user);
         toast.success("User created successfully");
+        createUser(fullname,email)
         setAuthpopup(false);
         setLoading(false);
       })
@@ -35,6 +36,7 @@ const Signup = ({ controller }) => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
+        createUser(user.displayName,user.email,user.photoURL)
         toast.success("Signed in successfully!");
         setAuthpopup(false);
       })
