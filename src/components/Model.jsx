@@ -4,8 +4,12 @@ import Button from "./Button";
 const Model = ({ children, controller, title, btnText = "Submit" }) => {
   const [visible, toggleModel] = controller;
   return (
-    <div className={`grid fixed inset-0 z-50 glass ${!visible && "hidden"}`}>
-      <div className="bg-white max-w-[500px] w-full place-self-center rounded-lg overflow-hidden animate__animated animate__bounceIn">
+    <div
+      className={`grid fixed inset-0 z-50 glass ${
+        !visible && "hidden"
+      } place-items-center`}
+    >
+      <div className="bg-white max-w-[500px] w-full rounded-lg overflow-hidden animate__animated animate__bounceIn">
         <div className="p-6 flex border-b">
           <div className="flex text-xl gap-3 items-center mr-auto">{title}</div>
           <FaTimes onClick={toggleModel} className="text-xl cursor-pointer" />
