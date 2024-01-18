@@ -4,7 +4,7 @@ import Button from '../Button'
 
 const MyCampaigns = () => {
 return (
-<div className='shadow-lg border border-gray-100 rounded-xl p-6 mb-4'>
+<div className='shadow-lg border border-gray-100 rounded-xl p-10 mb-4'>
     <div className='grid grid-cols-2 gap-14 '>
         <div>
             <div className='flex gap-4   mb-10'>
@@ -62,10 +62,9 @@ return (
         </div>
         <div className='space-y-3'>
             <div className='flex gap-7 '>
-                <Button width="full" type="outline" size="md">PEROFRMANCE</Button>
+                <Button width="full" type="outline" size="md">WITHDRAW FUNDS</Button>
                 <Button width="full" type="outline" size="md">EDIT</Button>
             </div>
-            <Button size="md" width="full" type="primary">UPLOAD DOCUMENTS</Button>
             <div className='font-light text-center border-t pt-4'><span className='font-normal'>Keep sharing</span> to
                 increase your fundraiser search</div>
             <div className="flex justify-evenly py-3">
@@ -87,9 +86,6 @@ return (
                 </div>
             </div>
         </div>
-    </div>
-    <div className='flex justify-center border-t mt-4 pt-4'>
-        <Button type="outline" size="md">WITHDRAW FUNDS</Button>
     </div>
 </div>
 )
