@@ -1,7 +1,7 @@
 import { FaTimes } from "react-icons/fa";
 import Button from "./Button";
 
-const Model = ({ children, controller, title, btnText = "Submit" }) => {
+const Model = ({ children, controller, title, btnText, btnOnClick  }) => {
   const [visible, toggleModel] = controller;
   return (
     <div
@@ -15,9 +15,11 @@ const Model = ({ children, controller, title, btnText = "Submit" }) => {
           <FaTimes onClick={toggleModel} className="text-xl cursor-pointer" />
         </div>
         <div className="max-h-[70vh] overflow-y-auto">{children}</div>
-        <div className="p-4 text-center border-t">
-          <Button type="primary">{btnText}</Button>
-        </div>
+        {btnText && (
+          <div className="p-4 text-center border-t">
+            <Button onClick={btnOnClick} type="primary">{btnText}</Button>
+          </div>
+        )}
       </div>
     </div>
   );
