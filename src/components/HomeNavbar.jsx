@@ -3,14 +3,15 @@ import styles from "../assets/css/navbar.module.css";
 import { Link } from "react-router-dom";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
-import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../utils/firebaseConfig";
+import AuthModal from "./AuthModal";
+import {Toaster} from "react-hot-toast"
 
 const HomeNavbar = () => {
   const [menu, setMenu] = useState(false);
   const [search, setSearch] = useState(false);
-  const [authPopup, setAuth] = useState(false);
-
+  const [authPopup, setAuthPopup] = useState(false);
+  
+  
   function showSearch() {
     setSearch(true);
     document.body.style.overflow = "hidden";
@@ -20,28 +21,21 @@ const HomeNavbar = () => {
     setSearch(false);
     document.body.style.overflow = "unset";
   }
+  
 
   function showAuth() {
-    setAuth(true);
+    setAuthPopup(true);
     document.body.style.overflow = "hidden";
   }
   function hideAuth() {
-    setAuth(false);
+    setAuthPopup(false);
     document.body.style.overflow = "unset";
   }
 
-  const googleSignIn = () =>
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
 
   return (
     <>
+      <Toaster/>
       {search ? (
         <div
           className={`${styles.searchOverlay} flex items-center justify-center`}
@@ -64,110 +58,12 @@ const HomeNavbar = () => {
         ""
       )}
 
-      {auth ? (
-        <div
-          className={`${styles.searchOverlay} flex justify-center items-start`}
-        >
-          <div className="bg-white w-[36%] max-sm:w-[96%] rounded-xl p-4 shadow-xl relative top-5 animate__animated animate__bounceIn">
-            <div>
-              <i
-                onClick={hideAuth}
-                className="bi bi-x text-xl font-bold cursor-pointer"
-              ></i>
-            </div>
-            <div className="grid grid-cols-2">
-              <div
-                className="font-bold border-b-2 text-center py-3 cursor-pointer"
-                onClick={() => setSignup(false)}
-              >
-                Login
-              </div>
-              <div
-                className="font-bold border-b-2 text-center py-3 cursor-pointer"
-                onClick={() => setSignup(true)}
-              >
-                Signup
-              </div>
-            </div>
-            {signup ? (
-              <section className="p-4">
-                <div className="text-2xl font-bold mb-4">Signup</div>
-                <div className="flex items-center justify-center border-[1px] gap-3 py-2 rounded-lg border-black">
-                  <i className="bi bi-google"></i>
-                  <div>Continue with Google</div>
-                </div>
-                <div className="text-center text-gray-500  py-1">or</div>
-                <input
-                  type="text"
-                  className="bg-gray-100 border-gray-300 w-full py-3 px-4 mt-2 shadow-inner rounded-lg"
-                  placeholder="First Name"
-                />
-                <input
-                  type="text"
-                  className="bg-gray-100 border-gray-300 w-full py-3 px-4 mt-3 shadow-inner rounded-lg"
-                  placeholder="Last Name"
-                />
-                <input
-                  type="text"
-                  className="bg-gray-100 border-gray-300 w-full py-3 px-4 mt-3 shadow-inner rounded-lg"
-                  placeholder="Email Address"
-                />
-                <input
-                  type="text"
-                  className="bg-gray-100 border-gray-300 w-full py-3 px-4 mt-3 shadow-inner rounded-lg"
-                  placeholder="Password"
-                />
-                <div className="flex gap-3 mt-3">
-                  <input type="checkbox" className="w-4" name="" id="consent" />
-                  <div className="text-xs">
-                    <label htmlFor="consent">
-                      I’d like to receive awesome e-mails and updates from
-                      LaunchGood
-                    </label>
-                  </div>
-                </div>
-                <button className="bg-black w-full text-white text-lg rounded-lg py-2 mt-3 ">
-                  Signup
-                </button>
-                <div className="text-sm text-center mt-3">
-                  Already have an account? Login
-                </div>
-                <div className="text-sm text-center mt-3">
-                  By continuing, you agree with GiveUmma's Terms of Use and
-                  Privacy Policy.
-                </div>
-              </section>
-            ) : (
-              <section className="p-4">
-                <div className="text-2xl font-bold mb-4">Login</div>
-                <div className="flex items-center justify-center border-[1px] gap-3 py-2 rounded-lg border-black">
-                  <i className="bi bi-google"></i>
-                  <div>Continue with Google</div>
-                </div>
-                <div className="text-center text-gray-500  py-1">or</div>
-                <input
-                  type="text"
-                  className="bg-gray-100 border-gray-300 w-full py-3 px-4 mt-3 shadow-inner rounded-lg"
-                  placeholder="Email Address"
-                />
-                <input
-                  type="text"
-                  className="bg-gray-100 border-gray-300 w-full py-3 px-4 mt-3 shadow-inner rounded-lg"
-                  placeholder="Password"
-                />
-                <button className="bg-black w-full text-white text-lg rounded-lg py-2 mt-3">
-                  Login
-                </button>
-                <div className="text-sm text-center mt-3">
-                  Don't have an account? Signup
-                </div>
-              </section>
-            )}
-          </div>
-        </div>
-      ) : (
+      {
+      authPopup ?
+        <AuthModal controller={[authPopup,setAuthPopup]}/>
+       : 
         ""
-      )}
+      }
 
       <div className={`${styles.navContainer} container mx-auto relative`}>
         {menu ? (
@@ -224,7 +120,6 @@ const HomeNavbar = () => {
                   <i className="bi bi-shield text text-gray-400"></i>
                   <div
                     className="text-sm cursor-pointer"
-                    onClick={() => loginWithRedirect()}
                   >
                     My Profile
                   </div>
@@ -247,7 +142,7 @@ const HomeNavbar = () => {
                 <i className="bi bi-shield text text-gray-400"></i>
                 <div
                   className="text-sm cursor-pointer"
-                  onClick={() => setAuth(true)}
+                  onClick={showAuth}
                 >
                   Login or Signup
                 </div>
