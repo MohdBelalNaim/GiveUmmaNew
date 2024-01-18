@@ -48,7 +48,7 @@ const Home = () => {
 
           <div className="grid grid-cols-3 max-sm:grid-cols-1 gap-6">
             {data.map((item, index) => (
-              <CampaignCard index={index} />
+              <CampaignCard index={index} key={index} />
             ))}
           </div>
           <div className="mt-6">
@@ -71,7 +71,7 @@ const Home = () => {
           </div>
           <div className="grid grid-cols-3 max-sm:grid-cols-1 gap-6 mt-4">
             {orgData.map((items, index) => (
-              <OrganizationsCard index={index} />
+              <OrganizationsCard key={index} index={index} />
             ))}
           </div>
         </section>

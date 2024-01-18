@@ -1,8 +1,18 @@
-import React from 'react'
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { auth } from "../utils/firebaseConfig";
+import { signOut } from "firebase/auth";
 
 const NavMenu = ({ controller }) => {
-    const[authPopup,setAuthPopup] = controller
+  const [authPopup, setAuthPopup] = controller;
+  const navigate = useNavigate()
+  function logOut() {
+    signOut(auth)
+      .then(() => {
+        localStorage.clear();
+        navigate("/")
+    })
+  }
   return (
     <div className="bg-white absolute right-5 top-24 w-80 rounded-xl shadow-lg z-50">
       <div className="px-3 pt-2">
@@ -60,7 +70,7 @@ const NavMenu = ({ controller }) => {
                 <div className="text-sm cursor-pointer">My Profile</div>
               </div>
             </Link>
-            <div className="flex items-center gap-4 py-2">
+            <div className="flex items-center gap-4 py-2" onClick={logOut}>
               <i className="bi bi-shield text text-gray-400"></i>
               <div className="text-sm cursor-pointer">Logout</div>
             </div>
@@ -68,7 +78,10 @@ const NavMenu = ({ controller }) => {
         ) : (
           <div className="flex items-center gap-4 py-2">
             <i className="bi bi-shield text text-gray-400"></i>
-            <div className="text-sm cursor-pointer" onClick={()=>setAuthPopup(true)}>
+            <div
+              className="text-sm cursor-pointer"
+              onClick={() => setAuthPopup(true)}
+            >
               Login or Signup
             </div>
           </div>
@@ -82,6 +95,6 @@ const NavMenu = ({ controller }) => {
       <div className="px-3 pb-2 text-xs">@GiveUmma 2024</div>
     </div>
   );
-}
+};
 
-export default NavMenu
+export default NavMenu;

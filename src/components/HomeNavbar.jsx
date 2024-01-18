@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styles from "../assets/css/navbar.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaSearch, FaTimes } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 import AuthModal from "./AuthModal";
@@ -11,7 +11,6 @@ const HomeNavbar = () => {
   const [menu, setMenu] = useState(false);
   const [search, setSearch] = useState(false);
   const [authPopup, setAuthPopup] = useState(false);
-  
   
   function showSearch() {
     setSearch(true);

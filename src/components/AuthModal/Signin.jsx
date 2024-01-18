@@ -3,6 +3,7 @@ import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, provider } from "../../utils/firebaseConfig";
 import { toast } from "react-hot-toast";
 import { SpinnerCircular } from "spinners-react";
+import { createUser } from "../../utils/createUser";
 
 const Signin = ({ controller }) => {
   const [authPopup, setAuthpopup] = controller;
@@ -12,7 +13,8 @@ const Signin = ({ controller }) => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        console.log(user.email)
+        createUser(user.displayName,user.email,user.photoURL)
+        localStorage.setItem("user",user.email)
         toast.success("Signed in successfully!");
         setAuthpopup(false);
       })
@@ -41,6 +43,7 @@ const Signin = ({ controller }) => {
         setLoading(false);
       });
   };
+  
   return (
     <section className="p-4">
       <div className="text-2xl font-bold mb-4">Login</div>

@@ -21,6 +21,7 @@ const Signup = ({ controller }) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         toast.success("User created successfully");
+        localStorage.setItem("user",email)
         createUser(fullname,email)
         setAuthpopup(false);
         setLoading(false);
@@ -36,7 +37,8 @@ const Signup = ({ controller }) => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        createUser(user.displayName,user.email,user.photoURL)
+        createUser(user.displayName, user.email, user.photoURL)
+        localStorage.setItem("user",user.email)
         toast.success("Signed in successfully!");
         setAuthpopup(false);
       })

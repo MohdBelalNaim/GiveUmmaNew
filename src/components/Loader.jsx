@@ -1,5 +1,16 @@
+import styles from "../assets/css/navbar.module.css"
+import { SpinnerInfinity } from "spinners-react";
+
 const Loader = () => {
-  return <h1 className="text-red-700">Loading..</h1>;
+  return (
+    <div className={`fixed z-10 inset-0 glass grid place-items-center`}>
+      <SpinnerInfinity
+        color="dodgerblue"
+        thickness={120}
+        size={80}
+      />
+    </div>
+  );
 };
 
 export default Loader;
