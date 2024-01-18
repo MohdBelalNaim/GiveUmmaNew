@@ -5,6 +5,7 @@ import { FaSearch, FaTimes } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 import AuthModal from "./AuthModal";
 import {Toaster} from "react-hot-toast"
+import NavMenu from "./NavMenu";
 
 const HomeNavbar = () => {
   const [menu, setMenu] = useState(false);
@@ -22,15 +23,6 @@ const HomeNavbar = () => {
     document.body.style.overflow = "unset";
   }
   
-
-  function showAuth() {
-    setAuthPopup(true);
-    document.body.style.overflow = "hidden";
-  }
-  function hideAuth() {
-    setAuthPopup(false);
-    document.body.style.overflow = "unset";
-  }
 
 
   return (
@@ -59,105 +51,9 @@ const HomeNavbar = () => {
       )}
 
       {
-      authPopup ?
-        <AuthModal controller={[authPopup,setAuthPopup]}/>
-       : 
-        ""
-      }
-
+      authPopup ? <AuthModal controller={[authPopup,setAuthPopup]}/> : ""}
       <div className={`${styles.navContainer} container mx-auto relative`}>
-        {menu ? (
-          <div className="bg-white absolute right-5 top-24 w-80 rounded-xl shadow-lg z-50">
-            <div className="px-3 pt-2">
-              <Link to="/all-campaigns">
-                <div className="flex items-center gap-4 py-2 mt-2">
-                  <i className="bi bi-globe text text-gray-400"></i>
-                  <div className="text-sm">Discover all</div>
-                </div>
-              </Link>
-              <Link to="/zakat-verified">
-                <div className="flex items-center gap-4 py-2">
-                  <i className="bi bi-heart text text-gray-400"></i>
-                  <div className="text-sm">Zakat Verified</div>
-                </div>
-              </Link>
-              <Link to="/tax-benifit">
-                <div className="flex items-center gap-4 py-2 pb-4">
-                  <i className="bi bi-house text text-gray-400"></i>
-                  <div className="text-sm">Tax Benifits</div>
-                </div>
-              </Link>
-            </div>
-            <Link to="/create-campaign">
-              <div className="px-3 py-2 border-t">
-                <div className="flex items-center gap-4 py-2">
-                  <i className="bi bi-send text text-gray-400"></i>
-                  <div className="text-sm">Start fundraising</div>
-                </div>
-              </div>
-            </Link>
-            <Link to="/how-we-work">
-              <div className="px-3 py-2 border-t">
-                <div className="flex items-center gap-4 py-2">
-                  <i className="bi bi-question-circle text text-gray-400"></i>
-                  <div className="text-sm">How we work</div>
-                </div>
-              </div>
-            </Link>
-            <div className="px-3 py-2 border-t">
-              <div className="flex items-center gap-4 py-2">
-                <i className="bi bi-person text text-gray-400"></i>
-                <div className="text-sm">About Us</div>
-              </div>
-              <div className="flex items-center gap-4 py-2">
-                <i className="bi bi-phone text text-gray-400"></i>
-                <div className="text-sm">Contact Us</div>
-              </div>
-            </div>
-            <div className="px-3 py-2 border-t">
-              <Link to="/my-profile">
-                <div className="flex items-center gap-4 py-2">
-                  <i className="bi bi-shield text text-gray-400"></i>
-                  <div
-                    className="text-sm cursor-pointer"
-                  >
-                    My Profile
-                  </div>
-                </div>
-              </Link>
-              <div className="flex items-center gap-4 py-2">
-                <i className="bi bi-shield text text-gray-400"></i>
-                <div
-                  className="text-sm cursor-pointer"
-                  onClick={() =>
-                    logout({
-                      logoutParams: { returnTo: window.location.origin },
-                    })
-                  }
-                >
-                  Logout
-                </div>
-              </div>
-              <div className="flex items-center gap-4 py-2">
-                <i className="bi bi-shield text text-gray-400"></i>
-                <div
-                  className="text-sm cursor-pointer"
-                  onClick={showAuth}
-                >
-                  Login or Signup
-                </div>
-              </div>
-            </div>
-
-            <div className="px-3 py-2 border-t flex text-xs text-gray-500 gap-4">
-              <div>Privacy Policy</div>
-              <div>Terms and Conditions</div>
-            </div>
-            <div className="px-3 pb-2 text-xs">@GiveUmma 2024</div>
-          </div>
-        ) : (
-          ""
-        )}
+        {menu ? <NavMenu controller={[authPopup,setAuthPopup]} /> : ""}
         <div className="nav-items max-sm:hidden">
           <Link to="/create-campaign">
             <button className={`${styles.startCampaignButton}`}>
