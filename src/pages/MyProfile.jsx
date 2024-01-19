@@ -3,24 +3,24 @@ import HomeNavbar from "../components/HomeNavbar";
 import Button from "../components/Button";
 import { FaCheck, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import MyCampaigns from "../components/MyProfilePage/MyCampaigns";
-import Model from "../components/Model";
 import useModel from "../customHooks/useModel";
 import { doc, getDoc } from "firebase/firestore";
 import { database } from "../utils/firebaseConfig";
 import Loader from "../components/Loader";
 import Avatar from "../components/Avatar";
+import UpdateFormModel from "../components/MyProfilePage/UpdateProfile";
 
 const MyProfile = () => {
-  const [form, toggleForm] = useModel();
+  const [updateForm, toggleUpdateForm] = useModel();
   const uid = localStorage.getItem("user");
   let [userData, setUserData] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
+  async function getData() {
+    let data = await getDoc(doc(database, "users", uid));
+    setUserData(data.data());
+  }
   useEffect(() => {
-    async function getData() {
-      let data = await getDoc(doc(database, "users", uid));
-      setUserData(data.data());
-    }
     getData().then((loaded) => setIsLoading(false));
   }, []);
 
@@ -38,38 +38,47 @@ const MyProfile = () => {
   const profileOptions = [
     {
       data: phone,
-      label: "Verify phone number",
+      name: "phone",
+      label: "Update phone number",
     },
     {
       data: city,
-      label: "Add city location",
+      name: "city",
+      label: "Add city",
     },
     {
       data: email,
+      name: "email",
       label: "Verify Email ID",
     },
     {
       data: linkedin,
+      name: "linkedin",
       label: "Link Facebook Profile",
     },
     {
       data: facebook,
+      name: "facebook",
       label: "Link LinkedIn Profile",
     },
     {
       data: photo,
+      name: "photo",
       label: "Add profile pic",
     },
     {
       data: pan,
+      name: "pan",
       label: "Add PAN card number",
     },
     {
       data: aadhar,
+      name: "aadhar",
       label: "Add Aadhar card number",
     },
     {
       data: dob,
+      name: "dob",
       label: "Add date of birth",
     },
   ];
@@ -90,22 +99,21 @@ const MyProfile = () => {
           <div className="flex gap-8  max-sm:flex-col items-start py-5">
             <div className="p-5 flex-1 shadow-lg border rounded-lg relative">
               <div className="flex justify-end absolute right-6">
-                <Button onClick={toggleForm} size="md" type="outline">
+                <Button onClick={toggleUpdateForm} size="md" type="outline">
                   Edit
                 </Button>
               </div>
               <div className="grid grid-cols-2 gap-x-28 gap-y-5 p-5">
                 <div>
-                  {
-                    photo?
+                  {photo ? (
                     <img
                       src={photo}
                       className="h-24 w-24 object-contain rounded-full"
                       alt=""
-                      />
-                      :
-                      <Avatar name={name} />
-                  }
+                    />
+                  ) : (
+                    <Avatar name={name} />
+                  )}
                 </div>
                 <div className="place-self-end justify-self-start">
                   <div className="text-gray-500">Name</div>
@@ -154,6 +162,7 @@ const MyProfile = () => {
               {profileOptions.map((item, index) => {
                 return (
                   <div
+                    key={index}
                     className={`flex items ${
                       index != profileOptions.length - 1 && "border-b"
                     } border-gray-300`}
@@ -182,11 +191,11 @@ const MyProfile = () => {
         </section>
       </div>
 
-      <Model title="Update details" controller={[form, toggleForm]}>
-        <form>
-          <input type="tel" placeholder="Phone number" />
-        </form>
-      </Model>
+      <UpdateFormModel
+        data={profileOptions}
+        controller={[updateForm, toggleUpdateForm]}
+        updateProfile={getData}
+      />
     </>
   );
 };
