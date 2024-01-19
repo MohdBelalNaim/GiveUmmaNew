@@ -9,9 +9,6 @@ const Home = () => {
   let data = [1, 2, 3, 4, 5, 6];
   let orgData = [1, 2, 3];
 
-
-  
-
   return (
     <>
       <section className={styles.banner}>
@@ -23,14 +20,8 @@ const Home = () => {
             Empower lives with your giving
           </div>
           <div className="flex gap-4 mt-4 max-sm:flex-col max-sm:items-start">
-            <Link to="/my-profile">
-              <button className={styles.heroButtons}>
-                Donate to Palestine
-              </button>
-            </Link>
-            <button
-              className={styles.heroButtons}
-            >
+            <button className={styles.heroButtons}>Donate to Palestine</button>
+            <button className={styles.heroButtons}>
               Help individuals in need
             </button>
           </div>
