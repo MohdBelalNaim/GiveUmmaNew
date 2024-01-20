@@ -50,7 +50,7 @@ return (
                     </div>
                     <div className='flex-col'>
                         <div className='font-semibold'>
-                            $100
+                            20
                         </div>
                         <div className='text-gray-500 text-sm'>
                             Views

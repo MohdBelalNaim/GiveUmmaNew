@@ -1,7 +1,6 @@
 import React from "react";
 
-const StoryAndPhotos = ({ controller }) => {
-  const [image, setImage, campaignStory, setCampaignStory] = controller;
+const StoryAndPhotos = () => {
 
   return (
     <section className="grid gap-y-4">
@@ -10,18 +9,16 @@ const StoryAndPhotos = ({ controller }) => {
         cols="30"
         rows="10"
         placeholder="Enter your story"
-        value={campaignStory}
-        onChange={(e) => setCampaignStory(e.target.value)}
         className="p-3 border border-gray-200 rounded-lg"
       ></textarea>
 
       <div className="font-bold">Select a photo for your campaign</div>
-      <div className="flex gap-4">
+      {/* <div className="grid grid-cols-3 gap-4">
         {image &&
           image.map((item) => {
             console.log(item)
             return (
-              <div className="bg-blue-100 w-max rounded-lg p-2">
+              <div className="bg-blue-100 rounded-lg p-2">
                 <img
                   src={URL.createObjectURL(item)}
                   className="h-44 w-44 object-contain rounded-md object-center"
@@ -32,7 +29,7 @@ const StoryAndPhotos = ({ controller }) => {
               </div>
             );
           })}
-      </div>
+      </div> */}
       <div class="flex items-center justify-center w-full">
         <label
           for="dropzone-file"
@@ -63,12 +60,10 @@ const StoryAndPhotos = ({ controller }) => {
             </p>
           </div>
           <input
-            onChange={(e) => setImage([...e.target.files])}
             id="dropzone-file"
             type="file"
             class="hidden"
             accept="image/*"
-            multiple={true}
           />
         </label>
       </div>

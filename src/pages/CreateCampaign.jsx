@@ -20,91 +20,78 @@ const CreateCampaign = () => {
     window.scrollTo(0, 0);
   };
 
-  const [type, setType] = useState("");
-  const [campaignerName, setCampaignerName] = useState("");
-  const [campaignerEmail, setCampaignerEmail] = useState("");
-  const [campaignerPhone, setCampaignerPhone] = useState("");
+  
 
-  const [benificiaryName, setBenificiaryName] = useState("");
-  const [benificiaryEmail, setBenificiaryEmail] = useState("");
-  const [benificiaryPhone, setBenificiaryPhone] = useState("");
+  // function storeData(
+  //   type,
+  //   campaignerName,
+  //   campaignerEmail,
+  //   campaignerPhone,
+  //   benificiaryName,
+  //   benificiaryEmail,
+  //   benificiaryPhone,
+  //   image
+  // ) {
+  //   setDoc(doc(database, "campaigns", campaignerEmail), {
+  //     type,
+  //     campaignerName,
+  //     campaignerEmail,
+  //     campaignerPhone,
+  //     benificiaryName,
+  //     benificiaryEmail,
+  //     benificiaryPhone,
+  //     image,
+  //   })
+  //     .then(() => {
+  //       console.log("Data saved");
+  //       setCreating(false);
+  //       navigate("/campaign-confirmation");
+  //     })
+  //     .catch((err) => console.log(err));
+  // }
+  // async function createCampaign(
+  //   type,
+  //   campaignerName,
+  //   campaignerEmail,
+  //   campaignerPhone,
+  //   benificiaryName,
+  //   benificiaryEmail,
+  //   benificiaryPhone,
+  //   imageList
+  // ) {
+  //   const urlList = [];
+  //   const storage = getStorage();
+  //   setCreating(true);
+  //   var count = 0;
 
-  const [image, setImage] = useState();
-  const [campaignStory, setCampaignStory] = useState("");
+  //   imageList.forEach((item) => {
+  //     const imageRef = ref(storage, `/campaign-images/${item.name}`);
+  //     uploadBytes(imageRef, item)
+  //       .then(() => {
+  //         getDownloadURL(imageRef)
+  //           .then((url) => {
+  //             urlList.push(url);
+  //             count++;
+  //             console.log(count);
+  //             if (imageList.length === count) {
+  //               storeData(
+  //                 type,
+  //                 campaignerName,
+  //                 campaignerEmail,
+  //                 campaignerPhone,
+  //                 benificiaryName,
+  //                 benificiaryEmail,
+  //                 benificiaryPhone,
+  //                 urlList
+  //               );
+  //             }
+  //           })
+  //           .catch((err) => console.log(err));
+  //       })
+  //       .catch((err) => console.log(err));
+  //   });
+  // }
 
-  function storeData(
-    type,
-    campaignerName,
-    campaignerEmail,
-    campaignerPhone,
-    benificiaryName,
-    benificiaryEmail,
-    benificiaryPhone,
-    image
-  ) {
-    setDoc(doc(database, "campaigns", campaignerEmail), {
-      type,
-      campaignerName,
-      campaignerEmail,
-      campaignerPhone,
-      benificiaryName,
-      benificiaryEmail,
-      benificiaryPhone,
-      image,
-    })
-      .then(() => {
-        console.log("Data saved");
-        setCreating(false)
-        navigate("/campaign-confirmation")
-      })
-      .catch((err) => console.log(err));
-  }
-  async function createCampaign(
-    type,
-    campaignerName,
-    campaignerEmail,
-    campaignerPhone,
-    benificiaryName,
-    benificiaryEmail,
-    benificiaryPhone,
-    imageList
-  ) {
-    const urlList = [];
-    const storage = getStorage();
-    setCreating(true)
-    var count = 0;
-
-    imageList.forEach((item) => {
-      const imageRef = ref(storage, `/campaign-images/${item.name}`);
-      uploadBytes(imageRef, item)
-        .then(() => {
-          getDownloadURL(imageRef)
-            .then((url) => {
-              urlList.push(url);
-              count++;
-              console.log(count);
-              if (imageList.length === count) {
-                storeData(
-                  type,
-                  campaignerName,
-                  campaignerEmail,
-                  campaignerPhone,
-                  benificiaryName,
-                  benificiaryEmail,
-                  benificiaryPhone,
-                  urlList
-                );
-              }
-            })
-            .catch((err) => console.log(err));
-        })
-        .catch((err) => console.log(err));
-    });
-  }
-
-  useEffect(() => {
-    console.log(type);
-  }, [type]);
   return (
     <div>
       <HomeNavbar />
@@ -115,28 +102,9 @@ const CreateCampaign = () => {
         </div>
 
         {story ? (
-          <StoryAndPhotos
-            controller={[image, setImage, campaignStory, setCampaignStory]}
-          />
+          <StoryAndPhotos/>
         ) : (
-          <BasicDetails
-            controller={[
-              campaignerName,
-              setCampaignerName,
-              campaignerEmail,
-              setCampaignerEmail,
-              campaignerPhone,
-              setCampaignerPhone,
-              type,
-              setType,
-              benificiaryName,
-              setBenificiaryName,
-              benificiaryEmail,
-              setBenificiaryEmail,
-              benificiaryPhone,
-              setBenificiaryPhone,
-            ]}
-          />
+          <BasicDetails/>
         )}
 
         <div className="flex gap-4">
@@ -150,18 +118,7 @@ const CreateCampaign = () => {
               <Button
                 size="md"
                 type="primary"
-                onClick={() =>
-                  createCampaign(
-                    type,
-                    campaignerName,
-                    campaignerEmail,
-                    campaignerPhone,
-                    benificiaryName,
-                    benificiaryEmail,
-                    benificiaryPhone,
-                    image
-                  )
-                }
+                onClick={() =>""}
               >
                 {creating ? (
                   <div className="flex justify-center">
