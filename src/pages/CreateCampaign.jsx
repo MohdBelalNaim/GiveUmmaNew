@@ -16,7 +16,7 @@ const CreateCampaign = () => {
   const navigate = useNavigate();
   const [creating, setCreating] = useState(false);
 
-  const { register, handleSubmit, watch } = useForm();
+  const { register, handleSubmit, watch,setValue } = useForm();
 
   const toggleForm = () => {
     setStory(!story);
@@ -72,7 +72,7 @@ const CreateCampaign = () => {
         </div>
         <form onSubmit={handleSubmit(getData)}>
           {story ? (
-            <StoryAndPhotos register={register} watch={watch} />
+            <StoryAndPhotos register={register} setValue={setValue} watch={watch} />
           ) : (
             <BasicDetails controller={register} />
           )}
