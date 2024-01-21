@@ -10,10 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@rollup/rollup-linux-x64-gnu":"^4.9.5j",
     "@mdxeditor/editor": "^2.3.4",
     "@reduxjs/toolkit": "^2.0.1",
-    "@rollup/rollup-linux-x64-gnu": "^4.9.5",
     "dotenv": "^16.3.1",
     "firebase": "^10.7.1",
     "react": "^18.2.0",
@@ -26,6 +24,17 @@
     "react-spinners": "^0.13.8",
     "spinners-react": "^1.0.7"
   },
+  "platformDependencies": [
+    {
+      "os": ["win32"],
+      "dependencySet": ["@rollup/rollup-win32-x64-msvc"]
+    },
+    {
+      "os": ["darwin","linux","openbsd"],
+      "arch": ["x32","x64"],
+      "dependencySet": ["@rollup/rollup-linux-x64-gnu"]
+    }
+  ],
   "devDependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
