@@ -126,7 +126,7 @@ const MyProfile = () => {
                 <div>
                   <div className="text-gray-500">Date of Birth</div>
                   <div className="text-lg font-light">
-                    {dob || "Not added"}
+                    {dob ||  "Not added"}
                   </div>
                 </div>
                 <div>

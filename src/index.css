@@ -5,8 +5,21 @@
 html,body{
     scroll-behavior: smooth;
 }
+
+ol,ul, menu {
+    list-style: revert;
+    margin: .5rem 1rem;
+    padding: initial;
+}
 :root{
     --primary: #00acee;
+}
+button[type="submit"]{
+     background-color: var(--primary);
+}
+ button[type="reset"]{
+    background-color: gray;
+
 }
 
 .primary{
