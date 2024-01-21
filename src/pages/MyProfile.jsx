@@ -126,31 +126,31 @@ const MyProfile = () => {
                 <div>
                   <div className="text-gray-500">Date of Birth</div>
                   <div className="text-lg font-light">
-                    {dob === "" && "Not added"}
+                    {dob || "Not added"}
                   </div>
                 </div>
                 <div>
                   <div className="text-gray-500">Phone Number</div>
                   <div className="text-lg font-light">
-                    {phone === "" && "Not added"}
+                    {phone || "Not added"}
                   </div>
                 </div>
                 <div>
                   <div className="text-gray-500">City of Residence</div>
                   <div className="text-lg font-light">
-                    {city === "" && "Not added"}
+                    {city || "Not added"}
                   </div>
                 </div>
                 <div>
                   <div className="text-gray-500">PAN Number</div>
                   <div className="text-lg font-light">
-                    {pan === "" && "Not added"}
+                    {pan || "Not added"}
                   </div>
                 </div>
                 <div>
                   <div className="text-gray-500">Aadhar Number</div>
                   <div className="text-lg font-light">
-                    {aadhar === "" && "Not added"}
+                    {aadhar || "Not added"}
                   </div>
                 </div>
               </div>
