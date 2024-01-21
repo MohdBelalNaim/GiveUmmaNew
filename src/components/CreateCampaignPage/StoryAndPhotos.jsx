@@ -53,8 +53,9 @@ const StoryAndPhotos = ({ register, watch }) => {
             headingsPlugin(),
             imagePlugin({
               imageUploadHandler: async (data) => {
-                if (data.size > 1024) {
+                if ((data.size/1000)>1024) {
                   alert("Maximum allowed size for images is 1 MB, Please upload smaller image")
+                  console.log(data)
                   return Promise.resolve(placeholder)
                 }
                 toggleUploading();
