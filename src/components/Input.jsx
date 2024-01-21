@@ -4,7 +4,7 @@ const Input = ({ type = "text", name, label, register }) => {
       type={type}
       {...register(name)}
       placeholder={label}
-      className="p-3 border w-full rounded capitalize"
+      className="p-3 border w-full rounded"
     />
   );
 };

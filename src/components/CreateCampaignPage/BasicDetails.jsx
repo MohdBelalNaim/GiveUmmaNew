@@ -1,72 +1,59 @@
+import {
+  benificiaryFields,
+  campaignerFields,
+} from "../../utils/campaignFields";
+import Input from "../Input";
 import React from "react";
 
-const BasicDetails = () => {
-
+const BasicDetails = ({ controller }) => {
   return (
     <section className="grid gap-y-4">
       <div className="font-bold mt-3 text-lg">Campaigner's details</div>
       <select
+        {...controller("campaignerType")}
         className="border w-full p-3 rounded-lg border-gray-200 bg-gray-200"
       >
-        <option value="" disabled>
-          Select beneficiary type
-        </option>
         <option value="individual">Individual</option>
         <option value="organisation">Organisation</option>
       </select>
-      <input
-        type="text"
-        placeholder="Full name"
-        className="border w-full p-3 rounded-lg border-gray-300"
-      />
-      <input
-        type="email"
-        placeholder="Email address"
-        className="border w-full p-3 rounded-lg border-gray-300"
-      />
-      <input
-        type="tel"
-        placeholder="Phone number"
-        className="border w-full p-3 rounded-lg border-gray-300"
-      />
+      {campaignerFields.map((data, index) => (
+        <Input
+          key={index}
+          name={data.name}
+          register={controller}
+          label={data.label}
+          type={data?.type}
+        />
+      ))}
 
       <div className="font-bold mt-3 text-lg">Beneficiary details</div>
       <select
+        {...controller("benificiaryType")}
         className="border w-full p-3 rounded-lg border-gray-200 bg-gray-200"
       >
-        <option value="" disabled>
-          Select beneficiary type
-        </option>
         <option value="individual">Individual</option>
         <option value="organisation">Organisation</option>
       </select>
-      <input
-        type="text"
-        placeholder="Beneficiary name"
-        className="border w-full p-3 rounded-lg border-gray-300"
-      />
-      <input
-        type="email"
-        placeholder="Email address"
-        className="border w-full p-3 rounded-lg border-gray-300"
-      />
-      <input
-        type="tel"
-        placeholder="Phone number"
-        className="border w-full p-3 rounded-lg border-gray-300"
-      />
-
+      {benificiaryFields.map((data, index) => (
+        <Input
+          key={index}
+          name={data.name}
+          register={controller}
+          label={data.label}
+          type={data?.type}
+        />
+      ))}
       <div className="font-bold mt-3 text-lg">Goal amount and End date</div>
-      <input
-        type="text"
-        placeholder="Goal amount"
-        className="border w-full p-3 rounded-lg border-gray-300"
-      />
-      <input
-        type="date"
-        placeholder="Campaign end date"
-        className="border w-full p-3 rounded-lg border-gray-300"
-      />
+      <div className="flex items-center gap-2">
+        <div className="text-2xl text-gray-600 border py-2 rounded px-3">₹</div>
+        <Input
+          label="Goal amount"
+          name="goalAmount"
+          type="number"
+          register={controller}
+        />
+      </div>
+      <Input label="Date" name="date" type="date" register={controller} />
     </section>
   );
 };

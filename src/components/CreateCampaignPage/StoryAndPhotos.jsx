@@ -1,22 +1,101 @@
-import React from "react";
+import Input from "../Input";
+import React, { useRef } from "react";
+import "@mdxeditor/editor/style.css";
+import {
+  MDXEditor,
+  UndoRedo,
+  BoldItalicUnderlineToggles,
+  toolbarPlugin,
+  InsertImage,
+  imagePlugin,
+  listsPlugin,
+  ListsToggle,
+  headingsPlugin,
+  BlockTypeSelect,
+} from "@mdxeditor/editor";
+import Model from "../Model";
+import useModel from "../../customHooks/useModel";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import Styles from "./StoryAndPhotos.module.css";
+import placeholder from "../../assets/images/largePlaceholder.png";
 
-const StoryAndPhotos = () => {
+const StoryAndPhotos = ({ register, watch }) => {
+  const image = watch("campaignImage");
 
+  const [uploading, toggleUploading] = useModel();
+
+  const [model, toggleModel] = useModel();
+  const dataRef = useRef("");
+  function handleTextarea() {
+    console.log(dataRef.current.getMarkdown());
+  }
+
+  const storage = getStorage();
   return (
     <section className="grid gap-y-4">
-      <div className="font-bold mt-3 text-lg">Add your story and media</div>
-      <textarea
-        cols="30"
-        rows="10"
-        placeholder="Enter your story"
-        className="p-3 border border-gray-200 rounded-lg"
-      ></textarea>
+      <div className="font-bold mt-3 text-lg">Add your story and title</div>
+      <Input label="Campaign title" name="campaignTitle" register={register} />
 
+      <div className={`relative ${Styles.head}`}>
+        {uploading && (
+          <div className="inset-0 absolute glass z-50 rounded-lg text-white grid place-items-center text-xl">
+            Uploading Image
+          </div>
+        )}
+        <MDXEditor
+          ref={dataRef}
+          // onChange={(e) => handleTextarea(e)}
+          className="border rounded-lg border-gray-200 h-[400px] overflow-auto text-black"
+          markdown="Your story here"
+          onChange={console.log}
+          plugins={[
+            listsPlugin(),
+            headingsPlugin(),
+            imagePlugin({
+              imageUploadHandler: async (data) => {
+                if (data.size > 1024) {
+                  alert("Maximum allowed size for images is 1 MB, Please upload smaller image")
+                  return Promise.resolve(placeholder)
+                }
+                toggleUploading();
+                const imageRef = ref(storage, `/story-images/${data.name}`);
+                return Promise.resolve(
+                  await uploadBytes(imageRef, data)
+                    .then(async () => {
+                      return getDownloadURL(imageRef)
+                        .then((url) => {
+                          toggleUploading();
+                          return url;
+                        })
+                        .catch((err) => console.log(err));
+                    })
+                    .catch((err) => console.log(err))
+                );
+              },
+            }),
+            toolbarPlugin({
+              toolbarContents: () => {
+                return (
+                  <>
+                    <UndoRedo />
+                    <BoldItalicUnderlineToggles />
+                    <InsertImage />
+                    <ListsToggle />
+                    <BlockTypeSelect />
+                  </>
+                );
+              },
+            }),
+          ]}
+        />
+      </div>
+
+      <Model title="fdkljg" controller={[model, toggleModel]} />
       <div className="font-bold">Select a photo for your campaign</div>
-      {/* <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4">
         {image &&
-          image.map((item) => {
-            console.log(item)
+          Array.from(image).map((item) => {
+            console.log(item);
             return (
               <div className="bg-blue-100 rounded-lg p-2">
                 <img
@@ -29,10 +108,10 @@ const StoryAndPhotos = () => {
               </div>
             );
           })}
-      </div> */}
+      </div>
       <div class="flex items-center justify-center w-full">
         <label
-          for="dropzone-file"
+          htmlFor="dropzone-file"
           class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800"
         >
           <div class="flex flex-col items-center justify-center pt-5 pb-6">
@@ -60,10 +139,12 @@ const StoryAndPhotos = () => {
             </p>
           </div>
           <input
+            {...register("campaignImage")}
             id="dropzone-file"
             type="file"
             class="hidden"
             accept="image/*"
+            multiple
           />
         </label>
       </div>
