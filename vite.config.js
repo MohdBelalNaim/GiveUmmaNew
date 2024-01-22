@@ -12,7 +12,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: [rehypeRaw],
+      external: ["rehype-raw"],
     },
   },
 });
