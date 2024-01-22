@@ -11,7 +11,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ["rehype-raw"],
+      external: ["./rehype-raw","./node_modules/remark-rehype","/rehype-raw"],
     },
   },
 });
