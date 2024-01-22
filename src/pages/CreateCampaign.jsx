@@ -25,8 +25,12 @@ const CreateCampaign = () => {
 
   const urlList = [];
   function getData(data) {
+    
     data.views = "0"
     data.status = "Pending"
+    data.zakatVerified = false
+    data.taxBenfits = false
+
     setCreating(true);
     uploadImage(data);
   }

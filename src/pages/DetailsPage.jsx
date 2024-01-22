@@ -1,7 +1,7 @@
 import { FaDonate, FaFacebookF, FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import HomeNavbar from "../components/HomeNavbar";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import Button from "../components/Button";
 import Supporter from "../components/DetailsPage/Supporter";
@@ -9,7 +9,14 @@ import Model from "../components/Model";
 import useModel from "../customHooks/useModel";
 import DonationForm from "../components/DetailsPage/DonationForm";
 import { useParams } from "react-router-dom";
-import { collection, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { database } from "../utils/firebaseConfig";
 import ReactMarkdown from "react-markdown";
 import Style from "../components/CreateCampaignPage/StoryAndPhotos.module.css";
@@ -19,26 +26,44 @@ import { formatINR } from "../utils/tools";
 import Avatar from "../components/Avatar";
 
 const DetailsPage = () => {
-  const supporters = [1, 2, 3, 4, 4, 5, 5, 6, 7, 6];
-
   // supporters controller
   const [visible, toggleModel] = useModel();
 
   const [donateForm, toggleDonateForm] = useModel();
   const [campaignData, setCampaignData] = useState({});
-
+  const [donations, setDonations] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const[loading,setLoading] = useState(true)
   const { id } = useParams();
+
   useEffect(() => {
     async function getData() {
       const campaignRef = collection(database, "campaigns");
       const data = await getDoc(doc(campaignRef, id));
       setCampaignData(data.data());
-      console.log(data.data());
+      setLoading(false)
     }
+
     getData();
   }, []);
+
+  const getDonations = useCallback(async () => {
+    let q = query(
+      collection(database, "donations"),
+      where("campaignId", "==", id)
+    );
+    let data = await getDocs(q);
+    setDonations(data.docs);
+    setTotalAmount(data.docs.reduce((c,n)=>+c + +n.data().amount,0))
+  }, [donations]);
+
+  useEffect(() => {
+    getDonations()
+  }, []);
+
   return (
     <>
+      {loading && <Loader/>}
       <HomeNavbar />
       <section className="flex max-lg:flex-wrap gap-8 max-w-5xl mx-auto px-2 mb-16 items-start">
         {/* main */}
@@ -55,7 +80,7 @@ const DetailsPage = () => {
             <Suspense fallback={<Loader />}>
               <img
                 src={campaignData?.campaignImage}
-                className="aspect-video rounded-md"
+                className="aspect-video rounded-md object-cover"
                 alt=""
               />
             </Suspense>
@@ -76,7 +101,7 @@ const DetailsPage = () => {
             <div className="flex items-start border p-4 rounded-md gap-4">
               <Avatar size="sm" name={campaignData?.campaignerName} />
               <div className="grid content-center text-gray-500 text-xs">
-                Created by
+                Campaigner
                 <span className="text-lg text-zinc-950">
                   {campaignData?.campaignerName}
                 </span>
@@ -86,7 +111,7 @@ const DetailsPage = () => {
             <div className="flex items-start border p-4 rounded-md gap-4">
               <Avatar size="sm" name={campaignData?.benificiaryName} />
               <div className="grid content-center text-gray-500 text-xs">
-                Created by
+                Benificiary
                 <span className="text-lg text-zinc-950">
                   {campaignData?.benificiaryName}
                 </span>
@@ -110,9 +135,9 @@ const DetailsPage = () => {
             <div className="text-center mb-4 text-xl font-[500]">
               Supporters
             </div>
-            {supporters.map((s, i) => {
+            {donations.map((donation, i) => {
               if (i > 3) return;
-              return <Supporter key={i} />;
+              return <Supporter data={donation.data()} key={i} />;
             })}
             <div
               className="flex justify-center mt-6 mb-4"
@@ -135,18 +160,23 @@ const DetailsPage = () => {
             GIVE UMMAH
           </div>
           <div className="py-16 grid gap-y-2 place-items-center px-6">
-            <div className="text-2xl">{formatINR(47856)}</div>
+            <div className="text-2xl">{formatINR(totalAmount)}</div>
             <div className="text-gray-500">
               raised of {formatINR(campaignData.goalAmount)}
             </div>
             {/* progress */}
             <div className="bg-gray-300 h-1.5 rounded-full max-w-72 w-full overflow-hidden">
-              <div className="primary h-full w-[65%]"></div>
+              <div
+                className="primary h-full"
+                style={{
+                  width: (totalAmount / campaignData.goalAmount) * 100 + "%",
+                }}
+              ></div>
             </div>
             {/* end progress */}
             <div className="flex w-full justify-between items-center max-w-72">
               <div className="flex gap-x-1">
-                485 <span className="text-gray-500">Givers</span>
+                {donations.length} <span className="text-gray-500">Givers</span>
               </div>
               <div className="flex gap-x-1">
                 23 <span className="text-gray-500">Day left</span>
@@ -170,7 +200,11 @@ const DetailsPage = () => {
 
       {/* Donation Form */}
 
-      <DonationForm controller={[donateForm, toggleDonateForm]} />
+      <DonationForm
+        updateDonations = {getDonations}
+        campaignID={id}
+        controller={[donateForm, toggleDonateForm]}
+      />
 
       {/* supporters model */}
       <Model
@@ -187,8 +221,8 @@ const DetailsPage = () => {
         controller={[visible, toggleModel]}
       >
         <div className="px-6">
-          {supporters.map((s, i) => {
-            return <Supporter key={i} />;
+          {donations.map((donation, i) => {
+            return <Supporter data={donation.data()} key={i} />;
           })}
         </div>
       </Model>
