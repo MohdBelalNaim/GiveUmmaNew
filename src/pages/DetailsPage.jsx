@@ -1,13 +1,20 @@
 import { FaDonate, FaFacebookF, FaWhatsapp } from "react-icons/fa";
-import { FaIndianRupeeSign, FaXTwitter } from "react-icons/fa6";
+import { FaXTwitter } from "react-icons/fa6";
 import HomeNavbar from "../components/HomeNavbar";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import Button from "../components/Button";
 import Supporter from "../components/DetailsPage/Supporter";
 import Model from "../components/Model";
 import useModel from "../customHooks/useModel";
 import DonationForm from "../components/DetailsPage/DonationForm";
+import { useParams } from "react-router-dom";
+import { collection, doc, getDoc } from "firebase/firestore";
+import { database } from "../utils/firebaseConfig";
+import ReactMarkdown from "react-markdown";
+import Style from "../components/CreateCampaignPage/StoryAndPhotos.module.css";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 
 const DetailsPage = () => {
   const supporters = [1, 2, 3, 4, 4, 5, 5, 6, 7, 6];
@@ -16,7 +23,23 @@ const DetailsPage = () => {
   const [visible, toggleModel] = useModel();
 
   const [donateForm, toggleDonateForm] = useModel();
+  const [campaignData, setCampaignData] = useState({});
 
+  const { id } = useParams();
+  useEffect(() => {
+    async function getData() {
+      const campaignRef = collection(database, "campaigns");
+      const userCampaigns = collection(
+        campaignRef,
+        "belal@gmail.com",
+        "campaigns"
+      );
+      const data = await getDoc(doc(userCampaigns, id));
+      setCampaignData(data.data());
+      console.log(data.data());
+    }
+    getData();
+  }, []);
   return (
     <>
       <HomeNavbar />
@@ -27,16 +50,15 @@ const DetailsPage = () => {
             GiveUmmah will not charge any fee on your donation to this
             fundraiser.
           </div>
-          <div className="text-2xl">
-            Urgent: Join the Fight to Save Vishal's Life!
-          </div>
+          <div className="text-2xl">{campaignData.campaignTitle}</div>
           <div className="relative">
             <div className="badge absolute top-5 -left-2 primary py-2 pl-4 pr-6 rounded-lg rounded-tl-none">
               Tax benefits
             </div>
             <Suspense fallback={<Loader />}>
               <img
-                src="http://picsum.photos/1080/720.webp"
+                // src={"https://picsum.photos"}
+                src={campaignData?.campaignImage}
                 className="aspect-video rounded-md"
                 alt=""
               />
@@ -65,7 +87,9 @@ const DetailsPage = () => {
               </Suspense>
               <div className="grid content-center text-gray-500 text-xs">
                 Created by
-                <span className="text-lg text-zinc-950">Vishal T R</span>
+                <span className="text-lg text-zinc-950">
+                  {campaignData?.campaignerName}
+                </span>
                 from, Bengaluru
               </div>
             </div>
@@ -79,7 +103,9 @@ const DetailsPage = () => {
               </Suspense>
               <div className="grid content-center text-gray-500 text-xs">
                 Created by
-                <span className="text-lg text-zinc-950">Vishal T R</span>
+                <span className="text-lg text-zinc-950">
+                  {campaignData?.benificiaryName}
+                </span>
                 from, Bengaluru
               </div>
             </div>
@@ -87,12 +113,14 @@ const DetailsPage = () => {
 
           {/* story */}
           <div className="border-b py-2 text-lg font-[500]">Story</div>
-          <p className="text-gray-600 text">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita,
-            sint? Beatae autem nemo suscipit ipsa consectetur deleniti, aliquid
-            culpa eos dignissimos dolorem corrupti, eveniet itaque totam ducimus
-            aperiam, sed non.
-          </p>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            rehypePlugins={[rehypeRaw]}
+            className={`${Style.head} ${Style.newLine}`}
+            children={campaignData.story}
+            
+          />
+          {/* <p className="text-gray-600 text"></p> */}
           {/* end of story */}
 
           {/* Supporters */}
@@ -120,7 +148,7 @@ const DetailsPage = () => {
         </main>
 
         {/* card */}
-        <aside className="max-w-[800px] w-full rounded-lg overflow-hidden sticky top-2 border">
+        <aside className="max-w-sm w-full rounded-lg overflow-hidden sticky top-2 border">
           <div className="primary text-center text-xl text-white py-4">
             GIVE UMMAH
           </div>

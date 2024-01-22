@@ -5,7 +5,7 @@ import BasicDetails from "../components/CreateCampaignPage/BasicDetails";
 import { FaArrowLeft, FaArrowRight, FaCheck } from "react-icons/fa";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc,addDoc } from "firebase/firestore";
 import { database } from "../utils/firebaseConfig";
 import { ref, getStorage, uploadBytes, getDownloadURL } from "firebase/storage";
 import { SpinnerCircular } from "spinners-react";
@@ -25,13 +25,15 @@ const CreateCampaign = () => {
 
   const urlList = [];
   function getData(data) {
+    data.views = "0"
+    data.status = "Pending"
     setCreating(true);
     uploadImage(data);
   }
   let count = 0;
   function uploadImage(data) {
     const storage = getStorage();
-    Array.from(data.campaignImage).forEach((index, item) => {
+    Array.from(data.campaignImage).forEach((item,index) => {
       const imageRef = ref(storage, `/campaign-images/${item.name}`);
       uploadBytes(imageRef, item)
         .then(() => {
@@ -51,7 +53,8 @@ const CreateCampaign = () => {
   }
 
   function saveData(data) {
-    setDoc(doc(database, "campaigns", data.campaignerEmail), data)
+    const userRef = collection(database,"campaigns")
+    addDoc(collection(userRef, data.campaignerEmail,"campaigns"),data)
       .then(() => {
         setCreating(false);
         navigate("/campaign-confirmation");

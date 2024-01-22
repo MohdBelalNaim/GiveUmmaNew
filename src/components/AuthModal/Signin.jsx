@@ -16,7 +16,7 @@ const Signin = ({ controller }) => {
       .then((result) => {
         const user = result.user;
         createUser(user.displayName, user.email, user.photoURL);
-        localStorage.setItem("user", user.email);
+        localStorage.setItem("user", user.uid);
         toast.success("Signed in successfully!");
         setAuthpopup(false);
       })
@@ -34,7 +34,7 @@ const Signin = ({ controller }) => {
     signInWithEmailAndPassword(auth, emailCred, passwordCred)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        localStorage.setItem("user", user.email);
+        localStorage.setItem("user",user.uid);
         toast.success("Signed in");
         setAuthpopup(false);
         setLoading(false);
