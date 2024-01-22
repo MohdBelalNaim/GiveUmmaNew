@@ -77,7 +77,7 @@ const CreateCampaign = () => {
           {story ? (
             <StoryAndPhotos register={register} setValue={setValue} watch={watch} />
           ) : (
-            <BasicDetails controller={register} />
+            <BasicDetails controller={register} setValue={setValue} />
           )}
 
           <div className="flex gap-4 mt-4">

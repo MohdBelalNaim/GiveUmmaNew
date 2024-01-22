@@ -3,9 +3,24 @@ import {
   campaignerFields,
 } from "../../utils/campaignFields";
 import Input from "../Input";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const BasicDetails = ({ controller }) => {
+const BasicDetails = ({ controller, setValue }) => {
+  
+  function getDate() {
+    let currentDate = new Date();
+    currentDate.setMonth(currentDate.getMonth() + 2);
+    let year = currentDate.getFullYear();
+    let month = currentDate.getMonth() + 1; // Months are 0-based, so add 1
+    let day = currentDate.getDate();
+    let formattedDate = `${year}-${month.toString().padStart(2, "0")}-${day
+      .toString()
+      .padStart(2, "0")}`;
+    setValue("date",formattedDate)
+  }
+  useEffect(() => {
+      getDate()
+  },[])
   return (
     <section className="grid gap-y-4">
       <div className="font-bold mt-3 text-lg">Campaigner's details</div>
@@ -53,7 +68,12 @@ const BasicDetails = ({ controller }) => {
           register={controller}
         />
       </div>
-      <Input label="Date" name="date" type="date" register={controller} />
+      <Input
+        label="Date"
+        name="date"
+        type="date"
+        register={controller}
+      />
     </section>
   );
 };
