@@ -210,7 +210,7 @@ const DetailsPage = () => {
       <Model
         title={
           <>
-            <FaDonate /> 465 Supporters
+            <FaDonate /> {donations.length} Supporters
           </>
         }
         btnText="Donate Now"
