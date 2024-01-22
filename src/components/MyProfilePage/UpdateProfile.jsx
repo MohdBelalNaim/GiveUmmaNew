@@ -39,7 +39,7 @@ const UpdateFormModel = ({ data, controller, updateProfile }) => {
   };
 
   function updateData(formData) {
-    updateDoc(doc(database, "users", email), formData)
+    updateDoc(doc(database, "users", localStorage.getItem("user")), formData)
       .then((success) => {
         toast.success("Data updated successfully!");
       })

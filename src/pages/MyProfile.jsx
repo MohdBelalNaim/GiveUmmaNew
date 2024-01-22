@@ -4,24 +4,45 @@ import Button from "../components/Button";
 import { FaCheck, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import MyCampaigns from "../components/MyProfilePage/MyCampaigns";
 import useModel from "../customHooks/useModel";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+  collection,
+} from "firebase/firestore";
 import { database } from "../utils/firebaseConfig";
 import Loader from "../components/Loader";
 import Avatar from "../components/Avatar";
 import UpdateFormModel from "../components/MyProfilePage/UpdateProfile";
+import { SpinnerCircular } from "spinners-react";
 
 const MyProfile = () => {
   const [updateForm, toggleUpdateForm] = useModel();
   const uid = localStorage.getItem("user");
   let [userData, setUserData] = useState();
+  let [campaigns, setUserCampaigns] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadingCampaigns, setLoadingCampaigns] = useState(false);
 
   async function getData() {
-    let data = await getDoc(doc(database, "users", uid));
-    setUserData(data.data());
+    return await getDoc(doc(database, "users", uid));
+  }
+
+  async function getFundraisers(email) {
+    setLoadingCampaigns(true)
+    const userRef = collection(database, "campaigns");
+    const data = await getDocs(collection(userRef, email, "campaigns"));
+    setUserCampaigns(data.docs);
+    setLoadingCampaigns(false)
   }
   useEffect(() => {
-    getData().then((loaded) => setIsLoading(false));
+    getData().then(async (data) => {
+      setUserData(data.data());
+      getFundraisers(data.data().email);
+      setIsLoading(false);
+    });
   }, []);
 
   const name = userData?.name;
@@ -125,9 +146,7 @@ const MyProfile = () => {
                 </div>
                 <div>
                   <div className="text-gray-500">Date of Birth</div>
-                  <div className="text-lg font-light">
-                    {dob ||  "Not added"}
-                  </div>
+                  <div className="text-lg font-light">{dob || "Not added"}</div>
                 </div>
                 <div>
                   <div className="text-gray-500">Phone Number</div>
@@ -143,9 +162,7 @@ const MyProfile = () => {
                 </div>
                 <div>
                   <div className="text-gray-500">PAN Number</div>
-                  <div className="text-lg font-light">
-                    {pan || "Not added"}
-                  </div>
+                  <div className="text-lg font-light">{pan || "Not added"}</div>
                 </div>
                 <div>
                   <div className="text-gray-500">Aadhar Number</div>
@@ -186,8 +203,21 @@ const MyProfile = () => {
 
         <section>
           <div className="text-xl font-bold mb-4">Your Fundraisers</div>
-          <MyCampaigns />
-          <MyCampaigns />
+          {loadingCampaigns ? (
+            <div className="grid place-items-center py-10">
+              <SpinnerCircular color="dodgerblue" secondaryColor="lightgray" />
+            </div>
+          ) : (
+            campaigns.map((campaign, index) => {
+              return (
+                <MyCampaigns
+                  key={index}
+                  data={campaign.data()}
+                  id={campaign.id}
+                />
+              );
+            })
+          )}
         </section>
       </div>
 

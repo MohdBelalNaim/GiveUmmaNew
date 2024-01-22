@@ -15,7 +15,7 @@ export async function createUser(name, email, photo) {
   const q = query(value, where("email", "==", email));
   let data = await getDocs(q);
   if (data.docs.length == 0) {
-    setDoc(doc(database, "users", email), {
+    setDoc(doc(database, "users",localStorage.getItem("user")), {
       name: name,
       email: email,
       dob: "",
