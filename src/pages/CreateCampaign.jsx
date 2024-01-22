@@ -54,7 +54,7 @@ const CreateCampaign = () => {
 
   function saveData(data) {
     const userRef = collection(database,"campaigns")
-    addDoc(collection(userRef, data.campaignerEmail,"campaigns"),data)
+    addDoc(userRef,data)
       .then(() => {
         setCreating(false);
         navigate("/campaign-confirmation");
