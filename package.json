@@ -46,7 +46,7 @@
   "vite": {
     "build": {
         "rollupOptions": {
-            "external": ["vue/server-renderer", "vue"]
+            "external": ["rehype-raw"]
         }
     }
   }
