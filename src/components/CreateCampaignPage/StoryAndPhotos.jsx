@@ -1,5 +1,5 @@
 import Input from "../Input";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "@mdxeditor/editor/style.css";
 import {
   MDXEditor,
@@ -19,15 +19,16 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import Styles from "./StoryAndPhotos.module.css";
 import placeholder from "../../assets/images/largePlaceholder.png";
 
-const StoryAndPhotos = ({ register, watch }) => {
+const StoryAndPhotos = ({ register, watch, setValue }) => {
   const image = watch("campaignImage");
 
   const [uploading, toggleUploading] = useModel();
 
   const [model, toggleModel] = useModel();
   const dataRef = useRef("");
+  // const[markd,setMarkd] = useState("")
   function handleTextarea() {
-    console.log(dataRef.current.getMarkdown());
+   setValue("story",dataRef.current.getMarkdown())
   }
 
   const storage = getStorage();
@@ -44,19 +45,20 @@ const StoryAndPhotos = ({ register, watch }) => {
         )}
         <MDXEditor
           ref={dataRef}
-          // onChange={(e) => handleTextarea(e)}
+          onChange={(e) => handleTextarea(e)}
           className="border rounded-lg border-gray-200 h-[400px] overflow-auto text-black"
           markdown="Your story here"
-          onChange={console.log}
           plugins={[
             listsPlugin(),
             headingsPlugin(),
             imagePlugin({
               imageUploadHandler: async (data) => {
-                if ((data.size/1000)>1024) {
-                  alert("Maximum allowed size for images is 1 MB, Please upload smaller image")
-                  console.log(data)
-                  return Promise.resolve(placeholder)
+                if (data.size / 1000 > 1024) {
+                  alert(
+                    "Maximum allowed size for images is 1 MB, Please upload smaller image"
+                  );
+                  console.log(data);
+                  return Promise.resolve(placeholder);
                 }
                 toggleUploading();
                 const imageRef = ref(storage, `/story-images/${data.name}`);
@@ -89,6 +91,13 @@ const StoryAndPhotos = ({ register, watch }) => {
             }),
           ]}
         />
+        <textarea 
+          hidden
+          {...register("story")}
+          id=""
+          cols="30"
+          rows="10"
+        ></textarea>
       </div>
 
       <Model title="fdkljg" controller={[model, toggleModel]} />
