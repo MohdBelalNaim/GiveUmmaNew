@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dotenv from 'dotenv';
+import rehypeRaw from "rehype-raw";
 
 dotenv.config();
 // https://vitejs.dev/config/
@@ -11,7 +12,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ["./rehype-raw","./node_modules/remark-rehype","/rehype-raw"],
+      external: [rehypeRaw],
     },
   },
 });
