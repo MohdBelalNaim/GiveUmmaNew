@@ -12,14 +12,9 @@ import {
 } from "react-icons/fa";
 import Button from "../Button";
 import { Link } from "react-router-dom";
+import { formatINR } from "../../utils/tools";
 
-const MyCampaigns = ({ data,id }) => {
-  
-    let IndianRupees = new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-  });
-    
+const MyCampaigns = ({ data, id }) => {
   return (
     <Link to={`/details/${id}`}>
       <div className="shadow-lg border border-gray-100 rounded-xl p-10 mb-4">
@@ -45,7 +40,7 @@ const MyCampaigns = ({ data,id }) => {
                 </div>
                 <div className="flex-col">
                   <div className="font-semibold">
-                    {IndianRupees.format(data.goalAmount)}
+                    {formatINR(data.goalAmount)}
                   </div>
                   <div className="text-gray-500 text-sm">Fund required</div>
                 </div>

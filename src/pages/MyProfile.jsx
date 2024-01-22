@@ -31,11 +31,15 @@ const MyProfile = () => {
   }
 
   async function getFundraisers(email) {
-    setLoadingCampaigns(true)
-    const userRef = collection(database, "campaigns");
-    const data = await getDocs(collection(userRef, email, "campaigns"));
+    setLoadingCampaigns(true);
+    const data = await getDocs(
+      query(
+        collection(database, "campaigns"),
+        where("campaignerEmail", "==", email)
+      )
+    );
     setUserCampaigns(data.docs);
-    setLoadingCampaigns(false)
+    setLoadingCampaigns(false);
   }
   useEffect(() => {
     getData().then(async (data) => {
@@ -133,7 +137,7 @@ const MyProfile = () => {
                       alt=""
                     />
                   ) : (
-                    <Avatar name={name} />
+                    <Avatar size="5xl" name={name} />
                   )}
                 </div>
                 <div className="place-self-end justify-self-start">

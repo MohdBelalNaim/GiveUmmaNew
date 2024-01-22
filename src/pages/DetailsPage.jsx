@@ -15,6 +15,8 @@ import ReactMarkdown from "react-markdown";
 import Style from "../components/CreateCampaignPage/StoryAndPhotos.module.css";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
+import { formatINR } from "../utils/tools";
+import Avatar from "../components/Avatar";
 
 const DetailsPage = () => {
   const supporters = [1, 2, 3, 4, 4, 5, 5, 6, 7, 6];
@@ -29,12 +31,7 @@ const DetailsPage = () => {
   useEffect(() => {
     async function getData() {
       const campaignRef = collection(database, "campaigns");
-      const userCampaigns = collection(
-        campaignRef,
-        "belal@gmail.com",
-        "campaigns"
-      );
-      const data = await getDoc(doc(userCampaigns, id));
+      const data = await getDoc(doc(campaignRef, id));
       setCampaignData(data.data());
       console.log(data.data());
     }
@@ -57,7 +54,6 @@ const DetailsPage = () => {
             </div>
             <Suspense fallback={<Loader />}>
               <img
-                // src={"https://picsum.photos"}
                 src={campaignData?.campaignImage}
                 className="aspect-video rounded-md"
                 alt=""
@@ -76,37 +72,25 @@ const DetailsPage = () => {
             </div>
           </div>
 
-          <div className="flex gap-2">
-            <div className="flex flex-1 border p-4 rounded-md gap-4">
-              <Suspense fallback={<Loader />}>
-                <img
-                  className="w-16 h-16 rounded-full"
-                  src="http://picsum.photos/50.webp"
-                  alt=""
-                />
-              </Suspense>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="flex items-start border p-4 rounded-md gap-4">
+              <Avatar size="sm" name={campaignData?.campaignerName} />
               <div className="grid content-center text-gray-500 text-xs">
                 Created by
                 <span className="text-lg text-zinc-950">
                   {campaignData?.campaignerName}
                 </span>
-                from, Bengaluru
+                from, India
               </div>
             </div>
-            <div className="flex flex-1 border p-4 rounded-md gap-4">
-              <Suspense fallback={<Loader />}>
-                <img
-                  className="w-16 h-16 rounded-full"
-                  src="http://picsum.photos/50.webp"
-                  alt=""
-                />
-              </Suspense>
+            <div className="flex items-start border p-4 rounded-md gap-4">
+              <Avatar size="sm" name={campaignData?.benificiaryName} />
               <div className="grid content-center text-gray-500 text-xs">
                 Created by
                 <span className="text-lg text-zinc-950">
                   {campaignData?.benificiaryName}
                 </span>
-                from, Bengaluru
+                from, India
               </div>
             </div>
           </div>
@@ -118,9 +102,7 @@ const DetailsPage = () => {
             rehypePlugins={[rehypeRaw]}
             className={`${Style.head} ${Style.newLine}`}
             children={campaignData.story}
-            
           />
-          {/* <p className="text-gray-600 text"></p> */}
           {/* end of story */}
 
           {/* Supporters */}
@@ -153,8 +135,10 @@ const DetailsPage = () => {
             GIVE UMMAH
           </div>
           <div className="py-16 grid gap-y-2 place-items-center px-6">
-            <div className="text-2xl">$123,000</div>
-            <div className="text-gray-500">raised of $20,000</div>
+            <div className="text-2xl">{formatINR(47856)}</div>
+            <div className="text-gray-500">
+              raised of {formatINR(campaignData.goalAmount)}
+            </div>
             {/* progress */}
             <div className="bg-gray-300 h-1.5 rounded-full max-w-72 w-full overflow-hidden">
               <div className="primary h-full w-[65%]"></div>
