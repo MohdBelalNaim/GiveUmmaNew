@@ -25,7 +25,8 @@
     "react-router-dom": "^6.21.2",
     "react-spinners": "^0.13.8",
     "remark-gfm": "^4.0.0",
-    "spinners-react": "^1.0.7"
+    "spinners-react": "^1.0.7",
+    "rehype-raw":"^7.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
