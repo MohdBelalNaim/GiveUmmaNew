@@ -8,7 +8,7 @@ const HowWeWork = () => {
   return (
     <>
       <HomeNavBar />
-      <div className="container mx-auto">
+      <div className="container mx-auto lg:px-8">
         <div className="max-sm:p-4 lg:py-16">
           <div className="text-3xl font-bold">How we work</div>
           <div className="max-w-2xl text-gray-500 py-3 mb-5">

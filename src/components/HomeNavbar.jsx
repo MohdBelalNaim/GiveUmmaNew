@@ -51,7 +51,7 @@ const HomeNavbar = () => {
 
       {
       authPopup ? <AuthModal controller={[authPopup,setAuthPopup]}/> : ""}
-      <div className={`${styles.navContainer} container mx-auto relative`}>
+      <div className={`${styles.navContainer} container mx-auto relative lg:px-8`}>
         {menu ? <NavMenu controller={[authPopup,setAuthPopup]} /> : ""}
         <div className="nav-items max-sm:hidden">
           <Link to="/create-campaign">

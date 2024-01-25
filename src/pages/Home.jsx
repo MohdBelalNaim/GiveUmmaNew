@@ -14,7 +14,7 @@ const Home = () => {
       <section className={styles.banner}>
         <HomeNavbar />
         <div
-          className={`container mx-auto max-lg:px-4 pb-20 max-sm:px-[24px] max-sm:pb-8`}
+          className={`container mx-auto max-lg:px-4 pb-20 max-sm:px-[24px] max-sm:pb-8 lg:px-8`}
         >
           <div className="font-bold text-[60px] max-w-[600px] max-sm:text-[40px]">
             Empower lives with your giving
@@ -28,7 +28,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="container mx-auto">
+      <section className="container mx-auto lg:px-8">
         <section className="py-8 max-lg:px-4 max-sm:px-[12px]">
           <div
             className={`${styles.fundraisingTitle} text-sm md:text-[32px] mb-3 font-[700]`}

@@ -112,7 +112,7 @@ const MyProfile = () => {
       <HomeNavbar />
       {isLoading && <Loader />}
 
-      <div className="container mx-auto pb-16 max-sm:px-2">
+      <div className="container mx-auto pb-16 max-sm:px-2 lg:px-8">
         <div className="flex gap-6 font-semibold text-sm w-[40%] mx-auto text-center max-sm:w-full">
           <div className="flex-1 py-3  border-b border-primary">PROFILE</div>
           <div className="flex-1 py-3">FUNDRAISERS</div>
