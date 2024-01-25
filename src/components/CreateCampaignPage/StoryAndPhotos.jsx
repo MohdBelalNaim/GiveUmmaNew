@@ -44,6 +44,7 @@ const StoryAndPhotos = ({ register, watch, setValue }) => {
           </div>
         )}
         <MDXEditor
+          
           ref={dataRef}
           onChange={(e) => handleTextarea(e)}
           className="border rounded-lg border-gray-200 h-[400px] overflow-auto text-black"

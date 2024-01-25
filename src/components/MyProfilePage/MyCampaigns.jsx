@@ -15,6 +15,24 @@ import { Link } from "react-router-dom";
 import { formatINR } from "../../utils/tools";
 
 const MyCampaigns = ({ data, id }) => {
+  const date = new Date();
+  const day = date.getDay();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  const today = new Date();
+  const campaignEnds = new Date(data.date);
+
+  function dateDiffInDays(a, b) {
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+    // Discard the time and time-zone information.
+    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+  }
+  const daysLeft = dateDiffInDays(today, campaignEnds);
+
   return (
     <Link to={`/details/${id}`}>
       <div className="shadow-lg border border-gray-100 rounded-xl p-10 mb-4 max-sm:p-5">
@@ -28,9 +46,15 @@ const MyCampaigns = ({ data, id }) => {
               />
               <div>
                 <div>{data.campaignTitle}</div>
-                <div className="text-xs bg-green-500 w-max text-white py-1 px-5 rounded-full mt-5 max-sm:mt-2 max-sm:px-3">
-                  {data?.status || "Pending"}
-                </div>
+                {daysLeft > 0 ? (
+                  <div className="text-xs bg-green-500 w-max text-white py-1 px-5 rounded-full mt-5 max-sm:mt-2 max-sm:px-3">
+                    {data?.status || "Pending"}
+                  </div>
+                ) : (
+                  <div className="text-xs bg-red-500 w-max text-white py-1 px-5 rounded-full mt-5 max-sm:mt-2 max-sm:px-3">
+                    Expired
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex justify-between mt-5  max-sm:flex-col max-sm:gap-5">
@@ -50,7 +74,9 @@ const MyCampaigns = ({ data, id }) => {
                   <FaCalendar />
                 </div>
                 <div className="flex-col max-sm:text-sm">
-                  <div className="font-semibold">10</div>
+                  <div className="font-semibold">
+                    {daysLeft <= 0 ? 0 : daysLeft}
+                  </div>
                   <div className="text-gray-500 text-sm">Days left</div>
                 </div>
               </div>

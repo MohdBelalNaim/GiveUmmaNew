@@ -67,7 +67,7 @@ const DetailsPage = () => {
       <HomeNavbar />
       <section className="flex max-lg:flex-wrap gap-8 max-w-5xl mx-auto px-2 mb-16 items-start">
         {/* main */}
-        <main className="space-y-4">
+        <main className="space-y-4 max-w-2xl">
           <div className="p-4 bg-gray-200 text-sm">
             GiveUmmah will not charge any fee on your donation to this
             fundraiser.
