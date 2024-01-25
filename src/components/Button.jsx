@@ -4,6 +4,7 @@ const Button = ({ type, children, width, onClick, size, submit = false }) => {
       type={submit ? "submit" : "button"}
       onClick={onClick}
       className={`
+      max-sm:text-sm
        rounded-full gap-1 font-[500] text-gray-50 bg-black flex justify-center items-center active:scale-95 transition-transform
       ${width === "full" && "w-full"}
       ${type === "primary" && "primary"}

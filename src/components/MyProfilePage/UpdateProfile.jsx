@@ -7,8 +7,9 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useRef, useState } from "react";
+import Avatar from "../Avatar";
 
-const UpdateFormModel = ({ data, controller, updateProfile }) => {
+const UpdateFormModel = ({ data, controller, updateProfile,name }) => {
   const [state, toggleForm] = controller;
   const { register, setValue, handleSubmit } = useForm();
   const [isUpdating, setIsUpdating] = useState(false);
@@ -16,7 +17,7 @@ const UpdateFormModel = ({ data, controller, updateProfile }) => {
   const image = useRef();
   const email = data.find((d) => d.name == "email").data;
   const photo = data.find((d) => d.name == "photo").data;
-
+  console.log(name)
   const updateProfilePic = (formData) => {
     formData.photo = photo;
     setIsUpdating(true);
@@ -64,12 +65,19 @@ const UpdateFormModel = ({ data, controller, updateProfile }) => {
   return (
     <Model title="Update details" controller={controller}>
       <form className="p-4 space-y-4" onSubmit={handleSubmit(updateProfilePic)}>
-        <img
-          id="preview"
-          src={photo}
-          className="w-40 aspect-square rounded-full mx-auto object-cover"
-          alt="profile pic"
-        />
+        {photo ? (
+          <img
+            id="preview"
+            src={photo}
+            className="w-40 aspect-square rounded-full mx-auto object-cover"
+            alt="profile pic"
+          />
+        ) : (
+          <div className="flex justify-center py-2">
+            <Avatar name={name} size="xl" />
+          </div>
+        )}
+
         <input
           type="file"
           {...register("photo")}
