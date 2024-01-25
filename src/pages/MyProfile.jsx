@@ -27,7 +27,9 @@ const MyProfile = () => {
   const [loadingCampaigns, setLoadingCampaigns] = useState(false);
 
   async function getData() {
-    return await getDoc(doc(database, "users", uid));
+    const userData = await getDoc(doc(database, "users", uid))
+    setUserData(userData.data());
+    return userData;
   }
 
   async function getFundraisers(email) {
@@ -41,9 +43,9 @@ const MyProfile = () => {
     setUserCampaigns(data.docs);
     setLoadingCampaigns(false);
   }
+  
   useEffect(() => {
     getData().then(async (data) => {
-      setUserData(data.data());
       getFundraisers(data.data().email);
       setIsLoading(false);
     });
