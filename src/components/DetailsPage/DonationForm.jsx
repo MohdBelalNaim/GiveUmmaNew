@@ -13,6 +13,8 @@ const DonationForm = ({ controller, campaignID, updateDonations }) => {
     amount: 0,
     percentAmount: 0,
   };
+  const date = new Date();
+  const today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
   const {
     register,
@@ -30,20 +32,21 @@ const DonationForm = ({ controller, campaignID, updateDonations }) => {
   const [loading, setLoading] = useState(false);
 
   const submitForm = (data) => {
-    setLoading(true)
+    setLoading(true);
     data.tip = percentAmount;
     data.campaignId = campaignID;
+    data.date = today;
     addDoc(collection(database, "donations"), data)
       .then((added) => {
         toast.success("Donated to campaign sucessfully");
         updateDonations();
         toggleModel();
-        setLoading(false)
+        setLoading(false);
       })
       .catch((err) => {
         toast.error("Cannot donate to campaign");
         console.log(err);
-        setLoading(false)
+        setLoading(false);
       });
   };
 

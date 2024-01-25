@@ -35,7 +35,8 @@ const DetailsPage = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const[loading,setLoading] = useState(true)
   const { id } = useParams();
-
+  const date = new Date()
+  
   useEffect(() => {
     async function getData() {
       const campaignRef = collection(database, "campaigns");
