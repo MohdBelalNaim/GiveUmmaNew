@@ -14,8 +14,7 @@ const DonationForm = ({ controller, campaignID, updateDonations }) => {
     percentAmount: 0,
   };
   const date = new Date();
-  const today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-
+  
   const {
     register,
     handleSubmit,
@@ -35,7 +34,7 @@ const DonationForm = ({ controller, campaignID, updateDonations }) => {
     setLoading(true);
     data.tip = percentAmount;
     data.campaignId = campaignID;
-    data.date = today;
+    data.date = date;
     addDoc(collection(database, "donations"), data)
       .then((added) => {
         toast.success("Donated to campaign sucessfully");
