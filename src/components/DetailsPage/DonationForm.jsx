@@ -7,13 +7,14 @@ import { addDoc, collection } from "firebase/firestore";
 import { database } from "../../utils/firebaseConfig";
 import toast from "react-hot-toast";
 import { SpinnerCircular } from "spinners-react";
+import moment from "moment";
 
 const DonationForm = ({ controller, campaignID, updateDonations }) => {
   const defaultValues = {
     amount: 0,
     percentAmount: 0,
   };
-  const date = new Date();
+  const date = moment().format("DD-MM-YYYY HH:mm:ss");
   
   const {
     register,
