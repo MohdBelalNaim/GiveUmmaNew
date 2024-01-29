@@ -13,7 +13,7 @@ const Avatar = ({ size = "md", name }) => {
       ${size == "5xl" && "w-40 text-7xl"}
       `}
     >
-      {name?.split("")[0]}
+      {name?name?.split("")[0]:"G"}
     </div>
   );
 };

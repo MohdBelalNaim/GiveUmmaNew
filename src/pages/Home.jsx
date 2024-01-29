@@ -1,13 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../assets/css/home.module.css";
 import HomeNavbar from "../components/HomeNavbar";
 import CampaignCard from "../components/CampaignCard";
 import OrganizationsCard from "../components/OrganizationsCard";
 import { Link } from "react-router-dom";
+import { collection, getDocs, limit, query, where } from "firebase/firestore";
+import { database } from "../utils/firebaseConfig";
+import { SpinnerCircular } from "spinners-react";
 
 const Home = () => {
-  let data = [1, 2, 3, 4, 5, 6];
   let orgData = [1, 2, 3];
+  const [loading, setLoading] = useState(false);
+  const [campaigns, setCampaigns] = useState([]);
+
+  async function getCampaigns() {
+    setLoading(true);
+    const campaignsRef = collection(database, "campaigns");
+    const q = query(campaignsRef, where("status", "==", "Active"), limit(6));
+    const data = await getDocs(q);
+    setCampaigns(data.docs);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    getCampaigns();
+  }, []);
 
   return (
     <>
@@ -37,18 +54,32 @@ const Home = () => {
           </div>
           <div className={`${styles.fundraisingSubTitle} mb-4`}>Sponsored</div>
 
-          <div className="grid grid-cols-3 max-sm:grid-cols-1 gap-6">
-            {data.map((item, index) => (
-              <CampaignCard index={index} key={index} />
-            ))}
-          </div>
-          <div className="mt-6">
-            <Link to="/all-campaigns">
-              <button className="primary font-semibold text-sm px-8 py-2 rounded-full">
-                DISCOVER ALL
-              </button>
-            </Link>
-          </div>
+          {loading ? (
+            <div className="py-10 flex justify-center">
+              <SpinnerCircular color="dodgerblue" secondaryColor="lightgray" />
+            </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-3 max-sm:grid-cols-1 gap-6">
+                {campaigns.map((item, index) => (
+                  <CampaignCard
+                    data={item.data()}
+                    id={item.id}
+                    key={index}
+                    index={index}
+                  />
+                ))}
+              </div>
+
+              <div className="mt-6">
+                <Link to="/all-campaigns">
+                  <button className="primary font-semibold text-sm px-8 py-2 rounded-full">
+                    DISCOVER ALL
+                  </button>
+                </Link>
+              </div>
+            </>
+          )}
         </section>
 
         <section className="container mx-auto py-8 max-lg:px-4 max-sm:px-[12px]">
