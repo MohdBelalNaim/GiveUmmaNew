@@ -1,4 +1,4 @@
-import { FaDonate, FaFacebookF, FaWhatsapp } from "react-icons/fa";
+import { FaDonate, FaFacebookF, FaTimes, FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import HomeNavbar from "../components/HomeNavbar";
 import { Suspense, useCallback, useEffect, useState } from "react";
@@ -15,6 +15,7 @@ import {
   getDoc,
   getDocs,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { database } from "../utils/firebaseConfig";
@@ -24,28 +25,35 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { formatINR } from "../utils/tools";
 import Avatar from "../components/Avatar";
+import ReportForm from "../components/DetailsPage/ReportForm";
+import { Toaster } from "react-hot-toast";
 
 const DetailsPage = () => {
   // supporters controller
   const [visible, toggleModel] = useModel();
 
+  const [report, setReport] = useState(false);
   const [donateForm, toggleDonateForm] = useModel();
   const [campaignData, setCampaignData] = useState({});
   const [donations, setDonations] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
-  const[loading,setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const { id } = useParams();
-  const date = new Date()
-  
+  const date = new Date();
+
   useEffect(() => {
     async function getData() {
       const campaignRef = collection(database, "campaigns");
       const data = await getDoc(doc(campaignRef, id));
       setCampaignData(data.data());
-      setLoading(false)
-    }
-
+      const currentView = data.data().views
+      await updateDoc(doc(database, "campaigns", id), {
+        views:+currentView+1  
+      })
+      setLoading(false);
+    } 
     getData();
+
   }, []);
 
   const getDonations = useCallback(async () => {
@@ -55,16 +63,17 @@ const DetailsPage = () => {
     );
     let data = await getDocs(q);
     setDonations(data.docs);
-    setTotalAmount(data.docs.reduce((c,n)=>+c + +n.data().amount,0))
+    setTotalAmount(data.docs.reduce((c, n) => +c + +n.data().amount, 0));
   }, [donations]);
 
   useEffect(() => {
-    getDonations()
+    getDonations();
   }, []);
 
   return (
     <>
-      {loading && <Loader/>}
+      <Toaster/>
+      {loading && <Loader />}
       <HomeNavbar />
       <section className="flex max-lg:flex-wrap gap-8 max-w-5xl mx-auto px-2 mb-16 items-start">
         {/* main */}
@@ -151,7 +160,7 @@ const DetailsPage = () => {
           <div className="p-8 border rounded-md grid gap-4 place-items-center text-center text-sm">
             If something isn't right, we will work with you to ensure no misuse
             occurs.
-            <Button type="outline">Report this cause</Button>
+            <Button type="outline" onClick={()=>setReport(true)}>Report this cause</Button>
           </div>
         </main>
 
@@ -202,7 +211,7 @@ const DetailsPage = () => {
       {/* Donation Form */}
 
       <DonationForm
-        updateDonations = {getDonations}
+        updateDonations={getDonations}
         campaignID={id}
         controller={[donateForm, toggleDonateForm]}
       />
@@ -227,6 +236,7 @@ const DetailsPage = () => {
           })}
         </div>
       </Model>
+      {report && <ReportForm controller={[report,setReport]} campaign={id} />}
     </>
   );
 };

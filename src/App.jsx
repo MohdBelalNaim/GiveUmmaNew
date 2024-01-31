@@ -12,6 +12,7 @@ import HowWeWork from './pages/HowWeWork';
 import CreateCampaign from './pages/CreateCampaign';
 import ConfirmationPage from './pages/ConfirmationPage';
 import MyProfile from './pages/MyProfile';
+import EditCampaign from './pages/EditCampaign';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/create-campaign" element={<CreateCampaign/>} />
         <Route path="/campaign-confirmation" element={<ConfirmationPage/>} />
         <Route path="/my-profile" element={<MyProfile/>} />
+        <Route path="/edit/:id" element={<EditCampaign  />} />
       </Routes>
       <Footer/>
     </BrowserRouter>

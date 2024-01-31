@@ -3,18 +3,18 @@ import Button from "../Button";
 import Model from "../Model";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useController, useForm } from "react-hook-form";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { database } from "../../utils/firebaseConfig";
 import toast from "react-hot-toast";
 import { SpinnerCircular } from "spinners-react";
-import moment from "moment";
+
 
 const DonationForm = ({ controller, campaignID, updateDonations }) => {
   const defaultValues = {
     amount: 0,
     percentAmount: 0,
   };
-  const date = moment().format("DD-MM-YYYY HH:mm:ss");
+  const date = new Date().getTime()
   
   const {
     register,
