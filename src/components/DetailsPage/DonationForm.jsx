@@ -3,13 +3,19 @@ import Button from "../Button";
 import Model from "../Model";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useController, useForm } from "react-hook-form";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { database } from "../../utils/firebaseConfig";
+import toast from "react-hot-toast";
+import { SpinnerCircular } from "spinners-react";
 
-const DonationForm = ({ controller }) => {
+
+const DonationForm = ({ controller, campaignID, updateDonations }) => {
   const defaultValues = {
     amount: 0,
     percentAmount: 0,
   };
-
+  const date = new Date().getTime()
+  
   const {
     register,
     handleSubmit,
@@ -22,9 +28,26 @@ const DonationForm = ({ controller }) => {
   const percentAmount = watch("percentAmount");
   const percent = Math.round((percentAmount / amount) * 100) ?? 0;
   const totalAmount = Number(percentAmount) + Number(amount);
+  const [model, toggleModel] = controller;
+  const [loading, setLoading] = useState(false);
 
   const submitForm = (data) => {
-    console.log({ ...data, tip: percentAmount });
+    setLoading(true);
+    data.tip = percentAmount;
+    data.campaignId = campaignID;
+    data.date = date;
+    addDoc(collection(database, "donations"), data)
+      .then((added) => {
+        toast.success("Donated to campaign sucessfully");
+        updateDonations();
+        toggleModel();
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast.error("Cannot donate to campaign");
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   return (
@@ -111,7 +134,15 @@ const DonationForm = ({ controller }) => {
         />
         <div className="flex justify-center">
           <Button submit type="primary">
-            Submit
+            {loading ? (
+              <SpinnerCircular
+                secondaryColor="lightgray"
+                color="white"
+                size={30}
+              />
+            ) : (
+              "Submit"
+            )}
           </Button>
         </div>
       </form>

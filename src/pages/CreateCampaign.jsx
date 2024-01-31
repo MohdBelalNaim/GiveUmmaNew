@@ -25,8 +25,12 @@ const CreateCampaign = () => {
 
   const urlList = [];
   function getData(data) {
+    
     data.views = "0"
     data.status = "Pending"
+    data.zakatVerified = false
+    data.taxBenfits = false
+
     setCreating(true);
     uploadImage(data);
   }
@@ -68,7 +72,7 @@ const CreateCampaign = () => {
   return (
     <div>
       <HomeNavbar />
-      <div className="max-w-[800px] mx-auto p-4 sm:pb-5 grid gap-y-4">
+      <div className="max-w-[800px] mx-auto p-4 sm:pb-5 grid gap-y-4 ">
         <div className="font-bold text-2xl">Create your campaign</div>
         <div className="w-max bg-gray-100 text-xs py-1 px-3 rounded-full">
           GiveUmma does not charge any platform fee!
@@ -77,7 +81,7 @@ const CreateCampaign = () => {
           {story ? (
             <StoryAndPhotos register={register} setValue={setValue} watch={watch} />
           ) : (
-            <BasicDetails controller={register} />
+            <BasicDetails controller={register} setValue={setValue} />
           )}
 
           <div className="flex gap-4 mt-4">

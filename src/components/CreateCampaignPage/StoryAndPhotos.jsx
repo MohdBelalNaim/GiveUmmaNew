@@ -44,6 +44,7 @@ const StoryAndPhotos = ({ register, watch, setValue }) => {
           </div>
         )}
         <MDXEditor
+          
           ref={dataRef}
           onChange={(e) => handleTextarea(e)}
           className="border rounded-lg border-gray-200 h-[400px] overflow-auto text-black"
@@ -91,7 +92,7 @@ const StoryAndPhotos = ({ register, watch, setValue }) => {
             }),
           ]}
         />
-        <textarea 
+        <textarea
           hidden
           {...register("story")}
           id=""
@@ -100,7 +101,6 @@ const StoryAndPhotos = ({ register, watch, setValue }) => {
         ></textarea>
       </div>
 
-      <Model title="fdkljg" controller={[model, toggleModel]} />
       <div className="font-bold">Select a photo for your campaign</div>
       <div className="grid grid-cols-3 gap-4">
         {image &&
