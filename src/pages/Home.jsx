@@ -28,31 +28,36 @@ const Home = () => {
 
   return (
     <>
-      <section className={styles.banner}>
-        <HomeNavbar />
-        <div
-          className={`container mx-auto max-lg:px-4 pb-20 max-sm:px-[24px] max-sm:pb-8 lg:px-8`}
-        >
-          <div className="font-bold text-[60px] max-w-[600px] max-sm:text-[40px]">
-            Empower lives with your giving
-          </div>
-          <div className="flex gap-4 mt-4 max-sm:flex-col max-sm:items-start">
-            <button className={styles.heroButtons}>Donate to Palestine</button>
-            <button className={styles.heroButtons}>
-              Help individuals in need
+      <HomeNavbar />
+
+      <section className="min-h-[380px] grid">
+        <div className="w-full relative text-white grid items-center ">
+          <div className="container mx-auto grid content-center justify-items-start max-lg:p-4">
+            <div className="text-5xl max-sm:text-3xl font-[700] mb-4">
+              Save A Child Every Month
+            </div>
+            <div className="text-2xl max-sm:text-lg max-w-2xl mb-8">
+              Join <b>421,908</b> monthly donors with Social Impact Plan and
+              start saving needy children every month
+            </div>
+            <button className="capitalize bg-white text-black px-5 py-3 rounded font-[700] max-sm:text-sm max-sm:py-2 max-sm:px-3">
+              Start giving monthly
             </button>
           </div>
+          <img
+            src="https://t4.ftcdn.net/jpg/02/61/52/73/360_F_261527303_0NhigPCosnRCAFzKrDzHglrH9joXgC7W.jpg"
+            className="object-cover w-full h-[380px] absolute inset-0 -z-10 -scale-x-100"
+          />
         </div>
       </section>
 
-      <section className="container mx-auto lg:px-8">
-        <section className="py-8 max-lg:px-4 max-sm:px-[12px]">
+      <section className="container mx-auto lg:px-8 sm:mt-8">
+        <section className="py-8 max-sm:py-4 max-lg:px-4 max-sm:px-[12px]">
           <div
-            className={`${styles.fundraisingTitle} text-sm md:text-[32px] mb-3 font-[700]`}
+            className={`${styles.fundraisingTitle} text-xl md:text-[32px] font-[700] mb-8 max-sm:mb-4`}
           >
-            Fundraising now
+            Trending campaigns
           </div>
-          <div className={`${styles.fundraisingSubTitle} mb-4`}>Sponsored</div>
 
           {loading ? (
             <div className="py-10 flex justify-center">
@@ -84,7 +89,7 @@ const Home = () => {
 
         <section className="container mx-auto py-8 max-lg:px-4 max-sm:px-[12px]">
           <div
-            className={`${styles.fundraisingTitle} text-sm md:text-[32px] mb-3 font-[700]`}
+            className={`${styles.fundraisingTitle} text-xl md:text-[32px] mb-3 font-[700]`}
           >
             Organizations
           </div>

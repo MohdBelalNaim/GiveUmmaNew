@@ -17,8 +17,17 @@ import Loader from "../components/Loader";
 import Avatar from "../components/Avatar";
 import UpdateFormModel from "../components/MyProfilePage/UpdateProfile";
 import { SpinnerCircular } from "spinners-react";
+import { useNavigate } from "react-router-dom";
 
 const MyProfile = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("user")) {
+      navigate("/auth");
+    }
+  }, []);
+
   const [updateForm, toggleUpdateForm] = useModel();
   const uid = localStorage.getItem("user");
   let [userData, setUserData] = useState();
@@ -27,7 +36,7 @@ const MyProfile = () => {
   const [loadingCampaigns, setLoadingCampaigns] = useState(false);
 
   async function getData() {
-    const userData = await getDoc(doc(database, "users", uid))
+    const userData = await getDoc(doc(database, "users", uid));
     setUserData(userData.data());
     return userData;
   }
@@ -43,10 +52,10 @@ const MyProfile = () => {
     setUserCampaigns(data.docs);
     setLoadingCampaigns(false);
   }
-  
+
   useEffect(() => {
     getData().then(async (data) => {
-      getFundraisers(data.data().email);
+      getFundraisers(data.data()?.email);
       setIsLoading(false);
     });
   }, []);
@@ -186,7 +195,12 @@ const MyProfile = () => {
                 </div>
               </div>
               <div className="lg:hidden mt-4">
-                <Button type="outline" width="full" size="md" onClick={toggleUpdateForm}>
+                <Button
+                  type="outline"
+                  width="full"
+                  size="md"
+                  onClick={toggleUpdateForm}
+                >
                   EDIT
                 </Button>
               </div>
