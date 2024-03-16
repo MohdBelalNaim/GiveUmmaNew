@@ -20,6 +20,7 @@ const HowWeWork = () => {
             {steps.map((item, index) => {
               return (
                 <StepComponent
+                  key={index}
                   index={index + 1}
                   title={item.heading}
                   desc={item.Description}
@@ -48,6 +49,7 @@ const HowWeWork = () => {
             {data.map((item, index) => {
               return (
                 <StepComponent
+                  key={index}
                   index={index + 1}
                   title={item.heading}
                   desc={item.Description}

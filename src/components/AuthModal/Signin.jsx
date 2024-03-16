@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { signInWithPopup, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, provider } from "../../utils/firebaseConfig";
 import { toast } from "react-hot-toast";
@@ -6,8 +7,8 @@ import { SpinnerCircular } from "spinners-react";
 import { createUser } from "../../utils/createUser";
 import PasswordReset from "./PasswordReset";
 
-const Signin = ({ controller }) => {
-  const [authPopup, setAuthpopup] = controller;
+const Signin = () => {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [reset, setReset] = useState(false);
 
@@ -18,11 +19,10 @@ const Signin = ({ controller }) => {
         createUser(user.displayName, user.email, user.photoURL);
         localStorage.setItem("user", user.uid);
         toast.success("Signed in successfully!");
-        setAuthpopup(false);
+        navigate("/");
       })
-      .catch((error) => {
-        console.log(error);
-        hideAuth();
+      .catch(() => {
+        toast.error("Something went wrong!!!");
       });
 
   const [emailCred, setEmailCred] = useState("");
@@ -34,13 +34,12 @@ const Signin = ({ controller }) => {
     signInWithEmailAndPassword(auth, emailCred, passwordCred)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        localStorage.setItem("user",user.uid);
+        localStorage.setItem("user", user.uid);
         toast.success("Signed in");
-        setAuthpopup(false);
+        navigate("/");
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         toast.error("Invalid email or password");
         setLoading(false);
       });
@@ -49,7 +48,7 @@ const Signin = ({ controller }) => {
   return (
     <>
       {reset ? (
-        <PasswordReset controller={[reset,setReset]} />
+        <PasswordReset controller={[reset, setReset]} />
       ) : (
         <section className="p-4">
           <div className="text-2xl font-bold mb-4">Login</div>
@@ -78,7 +77,12 @@ const Signin = ({ controller }) => {
               onChange={(e) => setPasswordCred(e.target.value)}
               required
             />
-            <div onClick={()=>setReset(true)} className="text-sm mt-2 py-3 cursor-pointer font-bold">Forgot password?</div>
+            <div
+              onClick={() => setReset(true)}
+              className="text-sm mt-2 py-3 cursor-pointer font-bold"
+            >
+              Forgot password?
+            </div>
             <button
               className="bg-black w-full text-white text-lg rounded-lg py-2 mt-3"
               disabled={loading && true}
@@ -92,9 +96,6 @@ const Signin = ({ controller }) => {
               )}
             </button>
           </form>
-          <div className="text-sm text-center mt-3">
-            Don't have an account? Signup
-          </div>
         </section>
       )}
     </>

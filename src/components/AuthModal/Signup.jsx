@@ -5,16 +5,14 @@ import { toast } from "react-hot-toast";
 import { SpinnerCircular } from "spinners-react";
 import { createUser } from "../../utils/createUser";
 
-const Signup = ({ controller }) => {
-  
+const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [authPopup, setAuthpopup] = controller;
   const [loading, setLoading] = useState(false);
-  let fullname = firstName+" "+lastName
-  
+  let fullname = firstName + " " + lastName;
+
   const signupWithEmailandPassword = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -22,9 +20,8 @@ const Signup = ({ controller }) => {
       .then((userCredentials) => {
         toast.success("User created successfully");
         console.log(userCredentials);
-        localStorage.setItem("user",userCredentials.user.uid)
-        createUser(fullname,email)
-        setAuthpopup(false);
+        localStorage.setItem("user", userCredentials.user.uid);
+        createUser(fullname, email);
         setLoading(false);
       })
       .catch((err) => {
@@ -38,8 +35,8 @@ const Signup = ({ controller }) => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        createUser(user.displayName, user.email, user.photoURL)
-        localStorage.setItem("user",user.uid)
+        createUser(user.displayName, user.email, user.photoURL);
+        localStorage.setItem("user", user.uid);
         toast.success("Signed in successfully!");
         setAuthpopup(false);
       })
@@ -112,9 +109,7 @@ const Signup = ({ controller }) => {
           )}
         </button>
       </form>
-      <div className="text-sm text-center mt-3">
-        Already have an account? Login
-      </div>
+
       <div className="text-sm text-center mt-3">
         By continuing, you agree with GiveUmma's Terms of Use and Privacy
         Policy.

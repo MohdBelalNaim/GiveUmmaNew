@@ -5,18 +5,24 @@ import BasicDetails from "../components/CreateCampaignPage/BasicDetails";
 import { FaArrowLeft, FaArrowRight, FaCheck } from "react-icons/fa";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
-import { collection, doc, setDoc,addDoc } from "firebase/firestore";
+import { collection, doc, setDoc, addDoc } from "firebase/firestore";
 import { database } from "../utils/firebaseConfig";
 import { ref, getStorage, uploadBytes, getDownloadURL } from "firebase/storage";
 import { SpinnerCircular } from "spinners-react";
 import { useForm } from "react-hook-form";
 
 const CreateCampaign = () => {
+  useEffect(() => {
+    if (!localStorage.getItem("user")) {
+      navigate("/auth");
+    }
+  }, []);
+
   const [story, setStory] = useState(false);
   const navigate = useNavigate();
   const [creating, setCreating] = useState(false);
 
-  const { register, handleSubmit, watch,setValue } = useForm();
+  const { register, handleSubmit, watch, setValue } = useForm();
 
   const toggleForm = () => {
     setStory(!story);
@@ -25,11 +31,10 @@ const CreateCampaign = () => {
 
   const urlList = [];
   function getData(data) {
-    
-    data.views = "0"
-    data.status = "Pending"
-    data.zakatVerified = false
-    data.taxBenfits = false
+    data.views = "0";
+    data.status = "Pending";
+    data.zakatVerified = false;
+    data.taxBenfits = false;
 
     setCreating(true);
     uploadImage(data);
@@ -37,7 +42,7 @@ const CreateCampaign = () => {
   let count = 0;
   function uploadImage(data) {
     const storage = getStorage();
-    Array.from(data.campaignImage).forEach((item,index) => {
+    Array.from(data.campaignImage).forEach((item, index) => {
       const imageRef = ref(storage, `/campaign-images/${item.name}`);
       uploadBytes(imageRef, item)
         .then(() => {
@@ -57,16 +62,14 @@ const CreateCampaign = () => {
   }
 
   function saveData(data) {
-    const userRef = collection(database,"campaigns")
-    addDoc(userRef,data)
+    const userRef = collection(database, "campaigns");
+    addDoc(userRef, data)
       .then(() => {
         setCreating(false);
         navigate("/campaign-confirmation");
       })
       .catch((err) => console.log(err))
-      .finally(() => {
-        
-      });
+      .finally(() => {});
   }
 
   return (
@@ -79,7 +82,11 @@ const CreateCampaign = () => {
         </div>
         <form onSubmit={handleSubmit(getData)}>
           {story ? (
-            <StoryAndPhotos register={register} setValue={setValue} watch={watch} />
+            <StoryAndPhotos
+              register={register}
+              setValue={setValue}
+              watch={watch}
+            />
           ) : (
             <BasicDetails controller={register} setValue={setValue} />
           )}

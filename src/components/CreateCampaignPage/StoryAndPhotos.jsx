@@ -1,5 +1,5 @@
 import Input from "../Input";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "@mdxeditor/editor/style.css";
 import {
   MDXEditor,
@@ -13,7 +13,6 @@ import {
   headingsPlugin,
   BlockTypeSelect,
 } from "@mdxeditor/editor";
-import Model from "../Model";
 import useModel from "../../customHooks/useModel";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import Styles from "./StoryAndPhotos.module.css";
@@ -22,13 +21,25 @@ import placeholder from "../../assets/images/largePlaceholder.png";
 const StoryAndPhotos = ({ register, watch, setValue }) => {
   const image = watch("campaignImage");
 
-  const [uploading, toggleUploading] = useModel();
+  const [width, setWidth] = useState(0);
 
-  const [model, toggleModel] = useModel();
   const dataRef = useRef("");
-  // const[markd,setMarkd] = useState("")
+  
+  useEffect(() => {
+    setWidth(window.innerWidth);
+    // const handleResize = () => {
+    // };
+
+    // window.addEventListener("resize", handleResize);
+
+    // return () => {
+    //   window.removeEventListener("resize", handleResize);
+    // };
+  }, []);
+
+  const [uploading, toggleUploading] = useModel();
   function handleTextarea() {
-   setValue("story",dataRef.current.getMarkdown())
+    setValue("story", dataRef.current.getMarkdown());
   }
 
   const storage = getStorage();
@@ -44,10 +55,9 @@ const StoryAndPhotos = ({ register, watch, setValue }) => {
           </div>
         )}
         <MDXEditor
-          
           ref={dataRef}
           onChange={(e) => handleTextarea(e)}
-          className="border rounded-lg border-gray-200 h-[400px] overflow-auto text-black"
+          className={`max-sm:w-[300px] border rounded-lg border-gray-200 h-[400px] overflow-auto text-black`}
           markdown="Your story here"
           plugins={[
             listsPlugin(),
@@ -119,14 +129,14 @@ const StoryAndPhotos = ({ register, watch, setValue }) => {
             );
           })}
       </div>
-      <div class="flex items-center justify-center w-full">
+      <div className="flex items-center justify-center w-full">
         <label
           htmlFor="dropzone-file"
-          class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800"
+          className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800"
         >
-          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+          <div className="flex flex-col items-center justify-center pt-5 pb-6">
             <svg
-              class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+              className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -134,17 +144,17 @@ const StoryAndPhotos = ({ register, watch, setValue }) => {
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
               />
             </svg>
-            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-              <span class="font-semibold">Click to upload</span> or drag and
+            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+              <span className="font-semibold">Click to upload</span> or drag and
               drop
             </p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
               SVG, PNG, JPG or GIF (MAX. 800x400px)
             </p>
           </div>
@@ -152,7 +162,7 @@ const StoryAndPhotos = ({ register, watch, setValue }) => {
             {...register("campaignImage")}
             id="dropzone-file"
             type="file"
-            class="hidden"
+            className="hidden"
             accept="image/*"
             multiple
           />
