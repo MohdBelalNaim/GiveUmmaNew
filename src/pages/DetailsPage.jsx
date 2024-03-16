@@ -1,4 +1,4 @@
-import { FaDonate, FaFacebookF, FaTimes, FaWhatsapp } from "react-icons/fa";
+import { FaDonate, FaFacebookF, FaLink, FaTimes, FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import HomeNavbar from "../components/HomeNavbar";
 import { Suspense, useCallback, useEffect, useState } from "react";
@@ -53,6 +53,7 @@ const DetailsPage = () => {
       setLoading(false);
     } 
     getData();
+    console.log(campaignData)
 
   }, []);
 
@@ -72,7 +73,15 @@ const DetailsPage = () => {
 
   return (
     <>
-      <Toaster/>
+      <div className="bg-white shadow-lg fixed w-full bottom-0 border-t p-2 hidden max-sm:block">
+        <button
+          className="primary w-full rounded-md py-2 text-lg"
+          onClick={toggleDonateForm}
+        >
+          Donate Now
+        </button>
+      </div>
+      <Toaster />
       {loading && <Loader />}
       <HomeNavbar />
       <section className="flex max-lg:flex-wrap gap-8 max-w-5xl mx-auto px-2 mb-16 items-start">
@@ -95,34 +104,60 @@ const DetailsPage = () => {
               />
             </Suspense>
           </div>
-          <div className="flex gap-x-4">
-            <div className="flex flex-1 gap-x-2 items-center font-[500] text-xl text-green-400 border-2 border-green-400 hover:bg-green-400 hover:text-white cursor-pointer transition-colors justify-center py-3 rounded-full">
-              <FaWhatsapp size={24} /> Share
+          <div className="flex gap-x-4 items-start">
+            <div className="flex flex-1 gap-x-2 items-center font-[500] text-xl text-green-400 border-2 border-green-400 hover:bg-green-400 hover:text-white cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-1.5">
+              <FaWhatsapp size={24} />
             </div>
-            <div className="flex flex-1 gap-x-2 items-center text-xl font-[500] text-black hover:text-white border-2 border-black hover:bg-black cursor-pointer transition-colors justify-center py-3 rounded-full">
-              <FaXTwitter size={20} /> Share
+            <div className="flex flex-1 gap-x-2 items-center text-xl font-[500] text-black hover:text-white border-2 border-black hover:bg-black cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-2">
+              <FaXTwitter size={20} />
             </div>
-            <div className="flex flex-1 gap-x-2 items-center text-xl font-[500] border-2 border-blue-900 text-blue-900 hover:bg-blue-900 hover:text-white cursor-pointer transition-colors justify-center py-3 rounded-full">
-              <FaFacebookF size={20} /> Share
+            <div className="flex flex-1 gap-x-2 items-center text-xl font-[500] border-2 border-blue-900 text-blue-900 hover:bg-blue-900 hover:text-white cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-2">
+              <FaFacebookF size={20} />
+            </div>
+            <div className="flex flex-1 gap-x-2 items-center text-xl font-[500] border-2 border-black text-black hover:bg-black hover:text-white cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-2">
+              <FaLink size={20} />
             </div>
           </div>
-
-          <div className="grid grid-cols-2 gap-2">
-            <div className="flex items-start border p-4 rounded-md gap-4">
-              <Avatar size="sm" name={campaignData?.campaignerName} />
+          <div className="border rounded-md p-6 gap-y-2 hidden max-sm:grid">
+            <div className="text-2xl font-bold">{formatINR(totalAmount)}</div>
+            <div className="text-gray-500 text-sm">
+              raised of {formatINR(campaignData?.goalAmount)}
+            </div>
+            <div className="w-full rounded-full h-3 mt-4 bg-gray-100">
+              <div
+                className="w-full rounded-full h-3 primary"
+                style={{
+                  width: (totalAmount / campaignData.goalAmount) * 100 + "%",
+                }}
+              ></div>
+            </div>
+            <div className="mt-3 flex items-center justify-between">
+              <div className="flex gap-1 text-sm font-bold">
+                <div>64</div>
+                <div className="text-gray-500">Days left</div>
+              </div>
+              <div className="flex gap-1 text-sm font-bold">
+                <div>{donations.length}</div>
+                <div className="text-gray-500">Givers</div>
+              </div>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-2 max-sm:grid-cols-1">
+            <div className="flex items-center border p-4 rounded-md gap-4">
+              {/* <Avatar size="sm" name={campaignData?.campaignerName} /> */}
               <div className="grid content-center text-gray-500 text-xs">
                 Campaigner
-                <span className="text-lg text-zinc-950">
+                <span className="text-lg text-zinc-950 max-sm:text-sm">
                   {campaignData?.campaignerName}
                 </span>
                 from, India
               </div>
             </div>
-            <div className="flex items-start border p-4 rounded-md gap-4">
-              <Avatar size="sm" name={campaignData?.benificiaryName} />
+            <div className="flex items-center border p-4 rounded-md gap-4">
+              {/* <Avatar size="sm" name={campaignData?.benificiaryName} /> */}
               <div className="grid content-center text-gray-500 text-xs">
                 Benificiary
-                <span className="text-lg text-zinc-950">
+                <span className="text-lg text-zinc-950 max-sm:text-sm">
                   {campaignData?.benificiaryName}
                 </span>
                 from, India
@@ -160,12 +195,14 @@ const DetailsPage = () => {
           <div className="p-8 border rounded-md grid gap-4 place-items-center text-center text-sm">
             If something isn't right, we will work with you to ensure no misuse
             occurs.
-            <Button type="outline" onClick={()=>setReport(true)}>Report this cause</Button>
+            <Button type="outline" onClick={() => setReport(true)}>
+              Report this cause
+            </Button>
           </div>
         </main>
 
         {/* card */}
-        <aside className="max-w-sm w-full rounded-lg overflow-hidden sticky top-2 border">
+        <aside className="max-w-sm w-full rounded-lg overflow-hidden sticky top-2 border max-sm:hidden">
           <div className="primary text-center text-xl text-white py-4">
             GIVE UMMAH
           </div>
@@ -236,7 +273,7 @@ const DetailsPage = () => {
           })}
         </div>
       </Model>
-      {report && <ReportForm controller={[report,setReport]} campaign={id} />}
+      {report && <ReportForm controller={[report, setReport]} campaign={id} />}
     </>
   );
 };
