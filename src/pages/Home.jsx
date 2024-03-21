@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { database } from "../utils/firebaseConfig";
 import { SpinnerCircular } from "spinners-react";
+import steps from "../assets/images/steps.png";
+import Footer from "../components/Footer";
 
 const Home = () => {
   let orgData = [1, 2, 3];
@@ -88,6 +90,42 @@ const Home = () => {
         </section>
 
         <section className="container mx-auto py-8 max-lg:px-4 max-sm:px-[12px]">
+          <div className="text-center text-2xl font-bold">
+            Start a fundraiser in three simple steps
+          </div>
+          <div className="mt-12">
+            <div className="pl-48 flex gap-4">
+              <div>
+                <div className="font-bold text-primary text-xl">
+                  Start your fundraiser
+                </div>
+                <div className="w-[66%]">
+                  It’ll take only 2 minutes. Just tell us a few details about
+                  you and the ones you are raising funds for.
+                </div>
+              </div>
+              <div>
+                <div className="font-bold text-primary text-xl">
+                  Share your fundraiser
+                </div>
+                <div className="w-[66%]">
+                  All you need to do is share the fundraiser with your friends
+                  and family. In no time, support will start pouring in.
+                </div>
+              </div>
+              <div>
+                <div className="font-bold text-primary text-xl">
+                  Withdraw Funds
+                </div>
+                <div className="w-[66%]">
+                  The funds raised can be withdrawn without any hassle directly
+                  to your bank account.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* <section className="container mx-auto py-8 max-lg:px-4 max-sm:px-[12px]">
           <div
             className={`${styles.fundraisingTitle} text-xl md:text-[32px] mb-3 font-[700]`}
           >
@@ -101,7 +139,7 @@ const Home = () => {
               <OrganizationsCard key={index} index={index} />
             ))}
           </div>
-        </section>
+        </section> */}
       </section>
     </>
   );

@@ -5,17 +5,26 @@ import BasicDetails from "../components/CreateCampaignPage/BasicDetails";
 import { FaArrowLeft, FaArrowRight, FaCheck } from "react-icons/fa";
 import Button from "../components/Button";
 import { useNavigate } from "react-router-dom";
-import { collection, doc, setDoc, addDoc } from "firebase/firestore";
+import { collection, doc, setDoc, addDoc, getDoc } from "firebase/firestore";
 import { database } from "../utils/firebaseConfig";
 import { ref, getStorage, uploadBytes, getDownloadURL } from "firebase/storage";
 import { SpinnerCircular } from "spinners-react";
 import { useForm } from "react-hook-form";
 
 const CreateCampaign = () => {
+  const [userData, setUserData] = useState(null);
+
   useEffect(() => {
     if (!localStorage.getItem("user")) {
       navigate("/auth");
     }
+    const user = localStorage.getItem("user");
+    async function getUserData() {
+      const userRef = doc(database, "users", user);
+      const data = await getDoc(userRef);
+      setUserData(data.data());
+    }
+    getUserData();
   }, []);
 
   const [story, setStory] = useState(false);
@@ -31,11 +40,15 @@ const CreateCampaign = () => {
 
   const urlList = [];
   function getData(data) {
+    data.campaignerEmail = userData?.email;
+    data.campaignerName = userData?.name;
+    data.campaignerImage = userData?.photo || "";
     data.views = "0";
     data.status = "Pending";
     data.zakatVerified = false;
     data.taxBenfits = false;
-
+    data.raisedAmount = 0;
+    data.totalTip = 0;
     setCreating(true);
     uploadImage(data);
   }

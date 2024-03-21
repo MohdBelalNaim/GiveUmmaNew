@@ -1,7 +1,13 @@
-import { FaDonate, FaFacebookF, FaLink, FaTimes, FaWhatsapp } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
+import {
+  FaDonate,
+  FaFacebookF,
+  FaLink,
+  FaTimes,
+  FaWhatsapp,
+} from "react-icons/fa";
+import { FaEarthAsia, FaXTwitter } from "react-icons/fa6";
 import HomeNavbar from "../components/HomeNavbar";
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import Loader from "../components/Loader";
 import Button from "../components/Button";
 import Supporter from "../components/DetailsPage/Supporter";
@@ -27,6 +33,8 @@ import { formatINR } from "../utils/tools";
 import Avatar from "../components/Avatar";
 import ReportForm from "../components/DetailsPage/ReportForm";
 import { Toaster } from "react-hot-toast";
+import { getDateDifferenceInDays } from "../utils/dateDifference";
+import { CiGlobe } from "react-icons/ci";
 
 const DetailsPage = () => {
   // supporters controller
@@ -40,21 +48,31 @@ const DetailsPage = () => {
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
   const date = new Date();
+  const tweetRef = useRef(null);
+  const facebookRef = useRef(null);
 
   useEffect(() => {
+    const url = window.location.href;
+    const title = document.title;
+    const encodedUrl = encodeURIComponent(url);
+    const encodedTitle = encodeURIComponent(title);
+    const tweetLink = `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`;
+    const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+
+    tweetRef.current.href = tweetLink;
+    facebookRef.current.href = facebookLink;
+
     async function getData() {
       const campaignRef = collection(database, "campaigns");
       const data = await getDoc(doc(campaignRef, id));
       setCampaignData(data.data());
-      const currentView = data.data().views
+      const currentView = data.data().views;
       await updateDoc(doc(database, "campaigns", id), {
-        views:+currentView+1  
-      })
+        views: +currentView + 1,
+      });
       setLoading(false);
-    } 
+    }
     getData();
-    console.log(campaignData)
-
   }, []);
 
   const getDonations = useCallback(async () => {
@@ -69,6 +87,7 @@ const DetailsPage = () => {
 
   useEffect(() => {
     getDonations();
+    console.log(campaignData);
   }, []);
 
   return (
@@ -84,11 +103,11 @@ const DetailsPage = () => {
       <Toaster />
       {loading && <Loader />}
       <HomeNavbar />
-      <section className="flex max-lg:flex-wrap gap-8 max-w-5xl mx-auto px-2 mb-16 items-start">
+      <section className="flex max-lg:flex-wrap gap-8 max-w-5xl mx-auto px-2 mb-16 items-start mt-2">
         {/* main */}
         <main className="space-y-4 max-w-2xl">
           <div className="p-4 bg-gray-200 text-sm">
-            GiveUmmah will not charge any fee on your donation to this
+            GiveUmma will not charge any fee on your donation to this
             fundraiser.
           </div>
           <div className="text-2xl">{campaignData.campaignTitle}</div>
@@ -104,26 +123,12 @@ const DetailsPage = () => {
               />
             </Suspense>
           </div>
-          <div className="flex gap-x-4 items-start">
-            <div className="flex flex-1 gap-x-2 items-center font-[500] text-xl text-green-400 border-2 border-green-400 hover:bg-green-400 hover:text-white cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-1.5">
-              <FaWhatsapp size={24} />
-            </div>
-            <div className="flex flex-1 gap-x-2 items-center text-xl font-[500] text-black hover:text-white border-2 border-black hover:bg-black cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-2">
-              <FaXTwitter size={20} />
-            </div>
-            <div className="flex flex-1 gap-x-2 items-center text-xl font-[500] border-2 border-blue-900 text-blue-900 hover:bg-blue-900 hover:text-white cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-2">
-              <FaFacebookF size={20} />
-            </div>
-            <div className="flex flex-1 gap-x-2 items-center text-xl font-[500] border-2 border-black text-black hover:bg-black hover:text-white cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-2">
-              <FaLink size={20} />
-            </div>
-          </div>
           <div className="border rounded-md p-6 gap-y-2 hidden max-sm:grid">
             <div className="text-2xl font-bold">{formatINR(totalAmount)}</div>
             <div className="text-gray-500 text-sm">
               raised of {formatINR(campaignData?.goalAmount)}
             </div>
-            <div className="w-full rounded-full h-3 mt-4 bg-gray-100">
+            <div className="w-full rounded-full h-3 mt-4 bg-gray-100 overflow-hidden">
               <div
                 className="w-full rounded-full h-3 primary"
                 style={{
@@ -133,13 +138,33 @@ const DetailsPage = () => {
             </div>
             <div className="mt-3 flex items-center justify-between">
               <div className="flex gap-1 text-sm font-bold">
-                <div>64</div>
+                <div>{getDateDifferenceInDays(campaignData.date)}</div>
                 <div className="text-gray-500">Days left</div>
               </div>
               <div className="flex gap-1 text-sm font-bold">
                 <div>{donations.length}</div>
                 <div className="text-gray-500">Givers</div>
               </div>
+            </div>
+          </div>
+          <div className="flex gap-x-4 items-start">
+            <div className="flex flex-1 gap-x-2 items-center font-[500] text-xl text-green-400 border-2 border-green-400 hover:bg-green-400 hover:text-white cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-1.5">
+              <a href={`whatsapp://send?text=${window.location.href}`}>
+                <FaWhatsapp size={24} />
+              </a>
+            </div>
+            <div className="flex flex-1 gap-x-2 items-center text-xl font-[500] text-black hover:text-white border-2 border-black hover:bg-black cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-2">
+              <a ref={tweetRef} target="_blank" rel="noopener noreferrer">
+                <FaXTwitter size={20} />
+              </a>
+            </div>
+            <div className="flex flex-1 gap-x-2 items-center text-xl font-[500] border-2 border-blue-900 text-blue-900 hover:bg-blue-900 hover:text-white cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-2">
+              <a ref={facebookRef} target="_blank" rel="noopener noreferrer">
+                <FaFacebookF size={20} />
+              </a>
+            </div>
+            <div className="flex flex-1 gap-x-2 items-center text-xl font-[500] border-2 border-black text-black hover:bg-black hover:text-white cursor-pointer transition-colors justify-center py-3 rounded-full max-sm:text-sm max-sm:py-2">
+              <FaLink size={20} />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-2 max-sm:grid-cols-1">
@@ -166,7 +191,10 @@ const DetailsPage = () => {
           </div>
 
           {/* story */}
-          <div className="border-b py-2 text-lg font-[500]">Story</div>
+          <div className="border-b py-2 text-lg font-[500] flex items-center gap-2">
+            <CiGlobe />
+            Story
+          </div>
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw]}
@@ -226,7 +254,8 @@ const DetailsPage = () => {
                 {donations.length} <span className="text-gray-500">Givers</span>
               </div>
               <div className="flex gap-x-1">
-                23 <span className="text-gray-500">Day left</span>
+                {getDateDifferenceInDays(campaignData.date)}{" "}
+                <span className="text-gray-500">Day left</span>
               </div>
             </div>
 
@@ -250,6 +279,8 @@ const DetailsPage = () => {
       <DonationForm
         updateDonations={getDonations}
         campaignID={id}
+        currRaised={campaignData.raisedAmount}
+        currTip={campaignData.totalTip}
         controller={[donateForm, toggleDonateForm]}
       />
 

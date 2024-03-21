@@ -4,7 +4,7 @@ const Avatar = ({ size = "md", name }) => {
   return (
     <div
       className={`primary aspect-square rounded-full text-white grid place-items-center 
-      ${size == "sm" && "w-16 text-4xl"}
+      ${size == "sm" && "w-12 text-2xl"}
       ${size == "md" && "w-20 text-4xl"}
       ${size == "lg" && "w-24 text-5xl"}
       ${size == "xl" && "w-28 text-5xl"}

@@ -4,12 +4,12 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD_XGOEPE48cGuspC6wAmyTgpPqEMlIgPg",
-  authDomain: "give-ummah.firebaseapp.com",
-  projectId: "give-ummah",
-  storageBucket: "give-ummah.appspot.com",
-  messagingSenderId: "832568068596",
-  appId: "1:832568068596:web:a99bb1d5169a3b93c411a1",
+  apiKey: "AIzaSyAAqi17pD61hcdaC8sgKA386yuWcK1vntg",
+  authDomain: "giveumma-bd666.firebaseapp.com",
+  projectId: "giveumma-bd666",
+  storageBucket: "giveumma-bd666.appspot.com",
+  messagingSenderId: "986824449736",
+  appId: "1:986824449736:web:2c4851c3b202d8df410ffd",
 };
 
 // Initialize Firebase

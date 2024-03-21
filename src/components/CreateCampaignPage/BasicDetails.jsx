@@ -23,24 +23,7 @@ const BasicDetails = ({ controller, setValue }) => {
   },[])
   return (
     <section className="grid gap-y-4">
-      <div className="font-bold mt-3 text-lg">Campaigner's details</div>
-      <select
-        {...controller("campaignerType")}
-        className="border w-full p-3 rounded-lg border-gray-200 bg-gray-200"
-      >
-        <option value="individual">Individual</option>
-        <option value="organisation">Organisation</option>
-      </select>
-      {campaignerFields.map((data, index) => (
-        <Input
-          key={index}
-          name={data.name}
-          register={controller}
-          label={data.label}
-          type={data?.type}
-        />
-      ))}
-
+      
       <div className="font-bold mt-3 text-lg">Beneficiary details</div>
       <select
         {...controller("benificiaryType")}

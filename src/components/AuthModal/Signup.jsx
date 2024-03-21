@@ -4,6 +4,7 @@ import { auth, provider } from "../../utils/firebaseConfig";
 import { toast } from "react-hot-toast";
 import { SpinnerCircular } from "spinners-react";
 import { createUser } from "../../utils/createUser";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
@@ -12,6 +13,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   let fullname = firstName + " " + lastName;
+  const navigate = useNavigate()
 
   const signupWithEmailandPassword = (e) => {
     e.preventDefault();
@@ -23,6 +25,7 @@ const Signup = () => {
         localStorage.setItem("user", userCredentials.user.uid);
         createUser(fullname, email);
         setLoading(false);
+        navigate("/")
       })
       .catch((err) => {
         console.log(err.type);
@@ -38,7 +41,7 @@ const Signup = () => {
         createUser(user.displayName, user.email, user.photoURL);
         localStorage.setItem("user", user.uid);
         toast.success("Signed in successfully!");
-        setAuthpopup(false);
+        navigate("/")
       })
       .catch((error) => {
         console.log(error);

@@ -3,19 +3,31 @@ import Button from "../Button";
 import Model from "../Model";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useController, useForm } from "react-hook-form";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { database } from "../../utils/firebaseConfig";
 import toast from "react-hot-toast";
 import { SpinnerCircular } from "spinners-react";
 
-
-const DonationForm = ({ controller, campaignID, updateDonations }) => {
+const DonationForm = ({
+  controller,
+  campaignID,
+  updateDonations,
+  currRaised,
+  currTip,
+}) => {
   const defaultValues = {
     amount: 0,
     percentAmount: 0,
   };
-  const date = new Date().getTime()
-  
+  const date = new Date().getTime();
+
   const {
     register,
     handleSubmit,
@@ -26,12 +38,21 @@ const DonationForm = ({ controller, campaignID, updateDonations }) => {
 
   const amount = watch("amount");
   const percentAmount = watch("percentAmount");
-  const percent = Math.round((percentAmount / amount) * 100) ?? 0;
   const totalAmount = Number(percentAmount) + Number(amount);
   const [model, toggleModel] = controller;
   const [loading, setLoading] = useState(false);
+  const campaignDoc = doc(database, "campaigns", campaignID);
 
-  const submitForm = (data) => {
+  const getTotalTip = async () => {
+    const data = await getDoc(campaignDoc);
+    return data.data().totalTip;
+  };
+  const getTotalRaised = async () => {
+    const data = await getDoc(campaignDoc);
+    return data.data().raisedAmount;
+  };
+
+  const submitForm = async (data) => {
     setLoading(true);
     data.tip = percentAmount;
     data.campaignId = campaignID;
@@ -48,6 +69,13 @@ const DonationForm = ({ controller, campaignID, updateDonations }) => {
         console.log(err);
         setLoading(false);
       });
+
+    updateDoc(campaignDoc, {
+      raisedAmount: (await getTotalRaised()) + +amount,
+      totalTip: (await getTotalTip()) + +percentAmount,
+    })
+      .then((updated) => console.log("Updated"))
+      .catch((err) => alert(err));
   };
 
   return (
@@ -56,7 +84,7 @@ const DonationForm = ({ controller, campaignID, updateDonations }) => {
         className="py-8 px-8 grid gap-4"
         onSubmit={handleSubmit(submitForm)}
       >
-        <div className="text-sm text-center">Choose or enter your amount</div>
+        <div className="text-sm text-center">Choose or enter your amount </div>
         <div className="flex justify-center gap-x-4">
           <Button type="outline" onClick={() => setValue("amount", 1500)}>
             <FaIndianRupeeSign /> 1500
@@ -88,13 +116,10 @@ const DonationForm = ({ controller, campaignID, updateDonations }) => {
             </p>
             <div className="grid">
               <div className="flex">
-                <div className="border border-zinc-600 rounded-l-lg py-2 px-3 text-center min-w-16 bg-white">
-                  {percent}%
-                </div>
                 <input
                   min={0}
                   type="number"
-                  className="border border-zinc-600 rounded-r-lg text-center p-2 w-28"
+                  className="p-2 rounded-md"
                   {...register("percentAmount")}
                 />
               </div>
