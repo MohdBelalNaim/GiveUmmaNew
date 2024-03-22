@@ -20,6 +20,7 @@ import ConfirmationPage from "./pages/ConfirmationPage";
 import MyProfile from "./pages/MyProfile";
 import EditCampaign from "./pages/EditCampaign";
 import Auth from "./pages/Auth";
+import WithdrawFunds from "./pages/WithdrawFunds";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/edit/:id" element={<EditCampaign />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/withdraw/:id" element={<WithdrawFunds />} />
       </Routes>
       <Footer />
     </BrowserRouter>

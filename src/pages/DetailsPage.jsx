@@ -250,10 +250,10 @@ const DetailsPage = () => {
             </div>
             {/* end progress */}
             <div className="flex w-full justify-between items-center max-w-72">
-              <div className="flex gap-x-1">
+              <div className="flex gap-x-1 items-center text-sm">
                 {donations.length} <span className="text-gray-500">Givers</span>
               </div>
-              <div className="flex gap-x-1">
+              <div className="flex gap-x-1  text-sm">
                 {getDateDifferenceInDays(campaignData.date)}{" "}
                 <span className="text-gray-500">Day left</span>
               </div>

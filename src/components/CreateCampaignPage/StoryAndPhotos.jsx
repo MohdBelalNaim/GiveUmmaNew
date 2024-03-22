@@ -24,7 +24,7 @@ const StoryAndPhotos = ({ register, watch, setValue }) => {
   const [width, setWidth] = useState(0);
 
   const dataRef = useRef("");
-  
+
   useEffect(() => {
     setWidth(window.innerWidth);
     // const handleResize = () => {
@@ -168,6 +168,10 @@ const StoryAndPhotos = ({ register, watch, setValue }) => {
           />
         </label>
       </div>
+        <div className="flex gap-2 py-3">
+          <input type="checkbox" name="" id="zakat" />
+          <label htmlFor="zakat">This campaign is eligible to recieve Zakat funds</label>
+        </div>
     </section>
   );
 };

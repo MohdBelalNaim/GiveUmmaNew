@@ -75,12 +75,12 @@ const MyProfile = () => {
     {
       data: phone,
       name: "phone",
-      label: "Update phone number",
+      label: "Update Phone number",
     },
     {
       data: city,
       name: "city",
-      label: "Add city",
+      label: "Add City",
     },
     {
       data: email,
@@ -100,22 +100,18 @@ const MyProfile = () => {
     {
       data: photo,
       name: "photo",
-      label: "Add profile pic",
+      label: "Add Profile pic",
     },
     {
       data: pan,
       name: "pan",
       label: "Add PAN card number",
     },
-    {
-      data: aadhar,
-      name: "aadhar",
-      label: "Add Aadhar card number",
-    },
+
     {
       data: dob,
       name: "dob",
-      label: "Add date of birth",
+      label: "Add Date of birth",
     },
   ];
   return (
@@ -124,7 +120,6 @@ const MyProfile = () => {
       {isLoading && <Loader />}
 
       <div className="container mx-auto pb-16 max-sm:px-2 lg:px-8">
-      
         <section>
           <div className="text-xl font-bold max-sm:mt-4 mt-8">Your Profile</div>
 
@@ -183,12 +178,7 @@ const MyProfile = () => {
                     {pan || "Not added"}
                   </div>
                 </div>
-                <div className="max-sm:text-sm">
-                  <div className="text-gray-500">Aadhar Number</div>
-                  <div className="text-lg font-light max-sm:text-sm">
-                    {aadhar || "Not added"}
-                  </div>
-                </div>
+          
               </div>
               <div className="lg:hidden mt-4">
                 <Button

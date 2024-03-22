@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebaseConfig";
 import { signOut } from "firebase/auth";
+import { BiSearch } from "react-icons/bi";
 
 const NavMenu = () => {
   const navigate = useNavigate();
@@ -12,8 +13,12 @@ const NavMenu = () => {
     });
   }
   return (
-    <div className="bg-white absolute right-5 max-sm:right-0 top-24 max-sm:top-16 w-80 sm:rounded-xl shadow-lg z-50">
+    <div className="bg-white absolute right-5 max-sm:right-0 top-24 max-sm:top-10 w-80 sm:rounded-xl shadow-lg z-50 max-sm:w-full ">
       <div className="px-3 pt-2">
+        <div className="hidden max-sm:flex border border-gray-300 rounded-md p-2">
+          <input type="text" placeholder="Search here" className="w-full" />
+          <BiSearch size={22}/>
+        </div>
         <Link to="/all-campaigns">
           <div className="flex items-center gap-4 py-2 mt-2">
             <i className="bi bi-globe text text-gray-400"></i>

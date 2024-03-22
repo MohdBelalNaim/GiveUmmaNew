@@ -85,7 +85,7 @@ const UpdateFormModel = ({ data, controller, updateProfile,name }) => {
           className="p-3 border w-full rounded capitalize"
         />
         {data.map((input, index) => {
-          if (input.name == "email" || input.name == "photo") return;
+          if (input.name == "email" || input.name == "photo" || input.name=="aadhar" ) return;
 
           const label = input.label.split(" ");
           label.shift();

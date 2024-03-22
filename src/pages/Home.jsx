@@ -7,8 +7,9 @@ import { Link } from "react-router-dom";
 import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { database } from "../utils/firebaseConfig";
 import { SpinnerCircular } from "spinners-react";
-import steps from "../assets/images/steps.png";
-import Footer from "../components/Footer";
+import startImage from "../assets/images/start.png"
+import shareImage from "../assets/images/sharing.png"
+import withdrawImage from "../assets/images/withdraw.png"
 
 const Home = () => {
   let orgData = [1, 2, 3];
@@ -94,30 +95,39 @@ const Home = () => {
             Start a fundraiser in three simple steps
           </div>
           <div className="mt-12">
-            <div className="pl-48 flex gap-4">
-              <div>
+            <div className="flex gap-12 text-center max-sm:flex-col">
+              <div className="">
+                <div className="grid place-items-center mb-4">
+                  <img src={startImage} alt="" />
+                </div>
                 <div className="font-bold text-primary text-xl">
                   Start your fundraiser
                 </div>
-                <div className="w-[66%]">
+                <div className="px-16">
                   It’ll take only 2 minutes. Just tell us a few details about
                   you and the ones you are raising funds for.
                 </div>
               </div>
               <div>
+                <div className="grid place-items-center mb-4">
+                  <img src={shareImage} alt="" />
+                </div>
                 <div className="font-bold text-primary text-xl">
                   Share your fundraiser
                 </div>
-                <div className="w-[66%]">
+                <div className="px-16">
                   All you need to do is share the fundraiser with your friends
                   and family. In no time, support will start pouring in.
                 </div>
               </div>
               <div>
+                <div className="grid place-items-center mb-4">
+                  <img src={withdrawImage} alt="" />
+                </div>
                 <div className="font-bold text-primary text-xl">
                   Withdraw Funds
                 </div>
-                <div className="w-[66%]">
+                <div className="px-16">
                   The funds raised can be withdrawn without any hassle directly
                   to your bank account.
                 </div>
