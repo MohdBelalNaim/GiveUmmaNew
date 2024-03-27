@@ -40,6 +40,7 @@ const CreateCampaign = () => {
 
   const urlList = [];
   function getData(data) {
+    alert(JSON.stringify(data))
     data.campaignerEmail = userData?.email;
     data.campaignerName = userData?.name;
     data.campaignerImage = userData?.photo || "";

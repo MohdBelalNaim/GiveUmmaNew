@@ -94,12 +94,23 @@ const WithdrawFunds = () => {
     }
   }
 
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  let mm = today.getMonth() + 1; // Months start at 0!
+  let dd = today.getDate();
+
+  if (dd < 10) dd = "0" + dd;
+  if (mm < 10) mm = "0" + mm;
+
+  const formattedToday = dd + "/" + mm + "/" + yyyy;
+
   async function withdrawFund(data) {
     const docUrl = await uploadDocument();
     data.user = localStorage.getItem("user");
     data.campaign = id;
     data.document = docUrl;
     data.status = "Pending";
+    data.date = formattedToday;
 
     const withdrawlRef = collection(database, "withdrawls");
     try {
@@ -126,11 +137,10 @@ const WithdrawFunds = () => {
         where("campaign", "==", id)
       );
       const userSnapshot = await getDocs(userQuery);
-      setValue("accountnumber",userSnapshot.docs[0].data()?.account);
-      setValue("ifsc",userSnapshot.docs[0].data()?.ifsc);
-      setValue("bankname",userSnapshot.docs[0].data()?.name);
-      setValue("branch",userSnapshot.docs[0].data()?.branch);
-      
+      setValue("accountnumber", userSnapshot.docs[0].data()?.account);
+      setValue("ifsc", userSnapshot.docs[0].data()?.ifsc);
+      setValue("bankname", userSnapshot.docs[0].data()?.name);
+      setValue("branch", userSnapshot.docs[0].data()?.branch);
     }
     getBankDetails();
     getCampaignDetails();
@@ -149,7 +159,7 @@ const WithdrawFunds = () => {
               <option value="" disabled>
                 Account type
               </option>
-              <option value="current" >Current</option>
+              <option value="current">Current</option>
               <option value="savings">Savings</option>
             </select>
             <input

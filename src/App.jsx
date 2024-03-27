@@ -21,6 +21,7 @@ import MyProfile from "./pages/MyProfile";
 import EditCampaign from "./pages/EditCampaign";
 import Auth from "./pages/Auth";
 import WithdrawFunds from "./pages/WithdrawFunds";
+import MoreDetails from "./pages/MoreDetails";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/edit/:id" element={<EditCampaign />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/withdraw/:id" element={<WithdrawFunds />} />
+        <Route path="/more/:id" element={<MoreDetails />} />
       </Routes>
       <Footer />
     </BrowserRouter>

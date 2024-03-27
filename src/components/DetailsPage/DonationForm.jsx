@@ -84,7 +84,11 @@ const DonationForm = ({
         className="py-8 px-8 grid gap-4"
         onSubmit={handleSubmit(submitForm)}
       >
+        <select name="" id="" className="border p-4 text-gray-500 rounded-md">
+          <option value="">Choose a donation type</option>
+        </select>
         <div className="text-sm text-center">Choose or enter your amount </div>
+
         <div className="flex justify-center gap-x-4">
           <Button type="outline" onClick={() => setValue("amount", 1500)}>
             <FaIndianRupeeSign /> 1500
@@ -102,31 +106,9 @@ const DonationForm = ({
           id="amount"
           {...register("amount")}
           placeholder="Enter your own amount"
-          className="border-2 border-zinc-950 px-4 py-3 rounded-lg placeholder:text-zinc-400"
+          className="border-b border-black px-4 py-3 placeholder:text-zinc-400"
         />
-        <div className="rounded-lg p-4 bg-zinc-300 space-y-4">
-          <p className="text-sm text-zinc-600">
-            CivelJmma (an initiative of HilalLink) does not charge any fees from
-            the benificiaries, we only rely on kind support from Civers like
-            you.
-          </p>
-          <div className="flex items-center justify-between">
-            <p className="text-sm text-zinc-600">
-              Support us by adding a tip of
-            </p>
-            <div className="grid">
-              <div className="flex">
-                <input
-                  min={0}
-                  type="number"
-                  className="p-2 rounded-md"
-                  {...register("percentAmount")}
-                />
-              </div>
-            </div>
-          </div>
-          <p className="text-sm">Total Amount INR {totalAmount}</p>
-        </div>
+
         <input
           type="text"
           placeholder="Name *"

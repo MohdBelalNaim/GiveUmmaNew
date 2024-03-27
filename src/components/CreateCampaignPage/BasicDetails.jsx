@@ -6,6 +6,7 @@ import Input from "../Input";
 import React, { useEffect, useState } from "react";
 
 const BasicDetails = ({ controller, setValue }) => {
+
   function getDate() {
     let currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 2);
@@ -39,6 +40,7 @@ const BasicDetails = ({ controller, setValue }) => {
           type={data?.type}
         />
       ))}
+      
 
       <div className="font-bold mt-3 text-lg">Complete Address</div>
       <input

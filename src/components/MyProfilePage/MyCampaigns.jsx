@@ -36,17 +36,13 @@ const MyCampaigns = ({ data, id }) => {
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
   }
 
-  
-
   const daysLeft = dateDiffInDays(today, campaignEnds);
   const [withdraw, setWithdraw] = useState(false);
 
-
-
   return (
     <>
-      <div className="shadow-lg border border-gray-100 rounded-xl p-10 mb-4 max-sm:p-5">
-        <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-14 max-sm:gap-4">
+      <div className="shadow-lg overflow-hidden border border-gray-100 rounded-xl  mb-4 max-sm:p-5">
+        <div className="px-8 pt-8 grid grid-cols-2 max-sm:grid-cols-1 gap-14 max-sm:gap-4">
           <div>
             <div className="flex max-sm:flex-col gap-4 mb-10 max-sm:mb-4">
               <img
@@ -114,8 +110,6 @@ const MyCampaigns = ({ data, id }) => {
           </div>
           <div className="space-y-3">
             <div className="flex gap-7 max-sm:flex-col max-sm:gap-2">
-              
-
               <Link to={`/withdraw/${id}`}>
                 <Button
                   width="full"
@@ -127,11 +121,7 @@ const MyCampaigns = ({ data, id }) => {
                 </Button>
               </Link>
               <Link to={`/edit/${id}`}>
-                <Button
-                  width="full"
-                  type="outline"
-                  size="md"
-                >
+                <Button width="full" type="outline" size="md">
                   EDIT STORY
                 </Button>
               </Link>
@@ -166,6 +156,9 @@ const MyCampaigns = ({ data, id }) => {
             </div>
           </div>
         </div>
+        <Link to={`/more/${id}`}>
+          <div className="border-t bg-gray-100 text-center py-3 mt-5">View more details</div>
+        </Link>
       </div>
     </>
   );

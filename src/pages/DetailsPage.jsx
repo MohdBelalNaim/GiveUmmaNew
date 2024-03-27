@@ -35,6 +35,7 @@ import ReportForm from "../components/DetailsPage/ReportForm";
 import { Toaster } from "react-hot-toast";
 import { getDateDifferenceInDays } from "../utils/dateDifference";
 import { CiGlobe } from "react-icons/ci";
+import { BiCalendar, BiGroup } from "react-icons/bi";
 
 const DetailsPage = () => {
   // supporters controller
@@ -112,7 +113,7 @@ const DetailsPage = () => {
           </div>
           <div className="text-2xl">{campaignData.campaignTitle}</div>
           <div className="relative">
-            <div className="badge absolute top-5 -left-2 primary py-2 pl-4 pr-6 rounded-lg rounded-tl-none">
+            <div className="badge absolute top-5 -left-2 primary py-4 pl-4 pr-6 rounded-lg rounded-tl-none">
               Tax benefits
             </div>
             <Suspense fallback={<Loader />}>
@@ -249,11 +250,13 @@ const DetailsPage = () => {
               ></div>
             </div>
             {/* end progress */}
-            <div className="flex w-full justify-between items-center max-w-72">
+            <div className="flex w-full justify-between items-center max-w-72 mt-2">
               <div className="flex gap-x-1 items-center text-sm">
-                {donations.length} <span className="text-gray-500">Givers</span>
+                <BiGroup className="text-gray-500" size={20} /> {donations.length}{" "}
+                <span className="text-gray-500">Givers</span>
               </div>
-              <div className="flex gap-x-1  text-sm">
+              <div className="flex gap-x-1  text-sm items-center">
+                <BiCalendar className="text-gray-500" size={18} />
                 {getDateDifferenceInDays(campaignData.date)}{" "}
                 <span className="text-gray-500">Day left</span>
               </div>
