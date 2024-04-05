@@ -9,7 +9,7 @@ const Model = ({ children, controller, title, btnText, btnOnClick  }) => {
         !visible && "hidden"
       } place-items-center`}
     >
-      <div className="bg-white max-w-[500px] w-full rounded-lg overflow-hidden animate__animated animate__bounceIn">
+      <div className="bg-white w-[min(500px,95%)] rounded-lg overflow-hidden animate__animated animate__bounceIn">
         <div className="p-6 flex border-b">
           <div className="flex text-xl gap-3 items-center mr-auto">{title}</div>
           <FaTimes onClick={toggleModel} className="text-xl cursor-pointer" />

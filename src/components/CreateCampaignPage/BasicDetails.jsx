@@ -1,12 +1,12 @@
+import { useForm } from "react-hook-form";
 import {
   benificiaryFields,
-  campaignerFields,
 } from "../../utils/campaignFields";
 import Input from "../Input";
 import React, { useEffect, useState } from "react";
 
 const BasicDetails = ({ controller, setValue }) => {
-
+  const { register } = useForm();
   function getDate() {
     let currentDate = new Date();
     currentDate.setMonth(currentDate.getMonth() + 2);
@@ -40,39 +40,44 @@ const BasicDetails = ({ controller, setValue }) => {
           type={data?.type}
         />
       ))}
-      
 
       <div className="font-bold mt-3 text-lg">Complete Address</div>
       <input
         type="text"
         placeholder="Address Line 1"
         className="w-full rounded border p-3"
+        {...register("addressline1")}
       />
       <input
         type="text"
         placeholder="Address Line 2"
         className="w-full rounded border p-3"
+        {...register("addressline2")}
       />
       <div className="grid grid-cols-2 gap-4">
         <input
           type="text"
           placeholder="City"
           className="w-full rounded border p-3"
+          {...register("city")}
         />
         <input
           type="text"
           placeholder="District"
           className="w-full rounded border p-3"
+          {...register("district")}
         />
         <input
           type="text"
           placeholder="State"
           className="w-full rounded border p-3"
+          {...register("city")}
         />
         <input
           type="text"
           placeholder="Postal code"
           className="w-full rounded border p-3"
+          {...register("postalcode")}
         />
       </div>
       <div className="font-bold mt-3 text-lg">Goal amount</div>

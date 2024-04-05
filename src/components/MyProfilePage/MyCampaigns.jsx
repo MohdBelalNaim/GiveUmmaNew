@@ -125,7 +125,7 @@ const MyCampaigns = ({ data, id }) => {
                   EDIT STORY
                 </Button>
               </Link>
-              <Link to={`/withdraw/${id}`}>
+              <Link to={`/upload-documents`}>
                 <Button
                   width="full"
                   type="outline"

@@ -30,12 +30,12 @@ import Style from "../components/CreateCampaignPage/StoryAndPhotos.module.css";
 import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import { formatINR } from "../utils/tools";
-import Avatar from "../components/Avatar";
 import ReportForm from "../components/DetailsPage/ReportForm";
 import { Toaster } from "react-hot-toast";
 import { getDateDifferenceInDays } from "../utils/dateDifference";
 import { CiGlobe } from "react-icons/ci";
 import { BiCalendar, BiGroup } from "react-icons/bi";
+import { BsCalendar, BsPeople, BsPeopleFill } from "react-icons/bs";
 
 const DetailsPage = () => {
   // supporters controller
@@ -93,7 +93,7 @@ const DetailsPage = () => {
 
   return (
     <>
-      <div className="bg-white shadow-lg fixed w-full bottom-0 border-t p-2 hidden max-sm:block">
+      <div className="primary shadow-lg fixed w-full bottom-0 border-t py-2 shadow hidden max-sm:block">
         <button
           className="primary w-full rounded-md py-2 text-lg"
           onClick={toggleDonateForm}
@@ -137,12 +137,14 @@ const DetailsPage = () => {
                 }}
               ></div>
             </div>
-            <div className="mt-3 flex items-center justify-between">
-              <div className="flex gap-1 text-sm font-bold">
+            <div className="mt-3 flex items-center  gap-x-10">
+              <div className="flex gap-1 text-sm font-bold items-center">
+                <BsCalendar />
                 <div>{getDateDifferenceInDays(campaignData.date)}</div>
                 <div className="text-gray-500">Days left</div>
               </div>
-              <div className="flex gap-1 text-sm font-bold">
+              <div className="flex gap-1 text-sm font-bold items-center">
+                <BsPeople />
                 <div>{donations.length}</div>
                 <div className="text-gray-500">Givers</div>
               </div>
@@ -252,12 +254,15 @@ const DetailsPage = () => {
             {/* end progress */}
             <div className="flex w-full justify-between items-center max-w-72 mt-2">
               <div className="flex gap-x-1 items-center text-sm">
-                <BiGroup className="text-gray-500" size={20} /> {donations.length}{" "}
+                <BiGroup className="text-gray-500" size={20} />{" "}
+                <span className="font-bold">{donations.length}</span>{" "}
                 <span className="text-gray-500">Givers</span>
               </div>
               <div className="flex gap-x-1  text-sm items-center">
                 <BiCalendar className="text-gray-500" size={18} />
-                {getDateDifferenceInDays(campaignData.date)}{" "}
+                <span className="font-bold">
+                  {getDateDifferenceInDays(campaignData.date)}
+                </span>{" "}
                 <span className="text-gray-500">Day left</span>
               </div>
             </div>
@@ -291,7 +296,7 @@ const DetailsPage = () => {
       <Model
         title={
           <>
-            <FaDonate /> {donations.length} Supporters
+            <BsPeopleFill /> {donations.length} Supporters
           </>
         }
         btnText="Donate Now"

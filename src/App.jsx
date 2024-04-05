@@ -22,6 +22,8 @@ import EditCampaign from "./pages/EditCampaign";
 import Auth from "./pages/Auth";
 import WithdrawFunds from "./pages/WithdrawFunds";
 import MoreDetails from "./pages/MoreDetails";
+import UploadDocuments from "./pages/UploadDocuments";
+import Careers from "./pages/Careers";
 
 function App() {
   return (
@@ -42,6 +44,8 @@ function App() {
         <Route path="/auth" element={<Auth />} />
         <Route path="/withdraw/:id" element={<WithdrawFunds />} />
         <Route path="/more/:id" element={<MoreDetails />} />
+        <Route path="/upload-documents" element={<UploadDocuments />} />
+        <Route path="/careers" element={<Careers />} />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -81,7 +81,7 @@ const DonationForm = ({
   return (
     <Model title="Donation Form" controller={controller}>
       <form
-        className="py-8 px-8 grid gap-4"
+        className="p-8 max-sm:p-2 grid gap-4"
         onSubmit={handleSubmit(submitForm)}
       >
         <select name="" id="" className="border p-4 text-gray-500 rounded-md">
@@ -90,7 +90,25 @@ const DonationForm = ({
         <div className="text-sm text-center">Choose or enter your amount </div>
 
         <div className="flex justify-center gap-x-4">
-          <Button type="outline" onClick={() => setValue("amount", 1500)}>
+          <div
+            onClick={() => setValue("amount", 1500)}
+            className="border px-4 py-2 rounded-full border-blue-400 text-blue-400"
+          >
+            1500
+          </div>
+          <div
+            onClick={() => setValue("amount", 3000)}
+            className="border px-4 py-2 rounded-full border-blue-400 text-blue-400"
+          >
+            3000
+          </div>
+          <div
+            onClick={() => setValue("amount", 5000)}
+            className="border px-4 py-2 rounded-full border-blue-400 text-blue-400"
+          >
+            5000
+          </div>
+          {/* <Button type="outline" onClick={() => setValue("amount", 1500)}>
             <FaIndianRupeeSign /> 1500
           </Button>
           <Button type="outline" onClick={() => setValue("amount", 3000)}>
@@ -98,7 +116,7 @@ const DonationForm = ({
           </Button>
           <Button type="outline" onClick={() => setValue("amount", 5000)}>
             <FaIndianRupeeSign /> 5000
-          </Button>
+          </Button> */}
         </div>
         <input
           type="number"
