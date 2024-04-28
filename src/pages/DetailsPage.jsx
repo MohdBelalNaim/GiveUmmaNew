@@ -53,6 +53,7 @@ const DetailsPage = () => {
   const facebookRef = useRef(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const url = window.location.href;
     const title = document.title;
     const encodedUrl = encodeURIComponent(url);
